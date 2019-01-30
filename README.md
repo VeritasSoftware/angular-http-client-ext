@@ -105,7 +105,7 @@ So far, the **HttpClientExt** component implements below strongly-typed API.
 get<T>(url: string, success?: IObservable<T>, failure?: IObservableError, options?: any) : Observable<HttpResponse<T>>
 ```
 
-# Demo Angular app
+# Demo Angular 7 app
 ## App demoes the library.
 
 ## Screenshot
