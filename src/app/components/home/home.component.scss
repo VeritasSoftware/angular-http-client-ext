@@ -1,0 +1,34 @@
+.event-name {
+    color:darkblue;
+    font-weight: bold;
+    font-family: 'Times New Roman';
+    padding: 3px 3px 3x 3px;
+}
+.venue {
+    color: grey;
+    font-weight: normal;
+    font-family: 'Courier New';
+    padding: 3px 3px 3x 3px;
+}
+.start-time {
+    color:red;
+    font-weight: bold;
+    font-family: 'Times New Roman';
+    padding: 3px 3px 3x 3px;
+}
+.next-to-jump {
+    background-color: purple;
+    color: white;
+    font-weight: 900;
+    padding: 10px 10px 10px 10px;
+}
+.rounded-corners {
+    border-radius: 5px 5px 0px 0px;
+    padding: 3px 3px 3x 3px;
+}
+
+table td {
+    vertical-align: middle;
+    // margin-left: auto;
+    // margin-right: auto;
+}

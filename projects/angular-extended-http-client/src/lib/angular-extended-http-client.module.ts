@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
-import { AngularExtendedHttpClientComponent } from './angular-extended-http-client.component';
+//import { AngularExtendedHttpClientComponent } from './angular-extended-http-client.component';
+
+import { HttpClientExt } from '../lib/angular-extended-http-client.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [AngularExtendedHttpClientComponent],
-  imports: [
-  ],
-  exports: [AngularExtendedHttpClientComponent]
+  imports: [ HttpClientModule ],
+  providers: [ HttpClientExt ]  
 })
-export class AngularExtendedHttpClientModule { }
+export class HttpClientExtModule { }

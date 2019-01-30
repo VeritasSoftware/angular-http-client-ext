@@ -1,4 +1,107 @@
-# AngularHttpClientExt
+# Extended HttpClient library
+## The library allows using HttpClient with strongly-typed callbacks.
+### HttpClientExt
+
+The Angular component is an extended HttpClient. It uses HttpClient under the covers.
+
+**HttpClientExt** exposes HttpClient data via strongly-typed callbacks.
+
+This keeps the code cleaner by not having to repeat **.subscribe(x => ...)** all over your code when using **Observables**.
+
+The component encapsulates the **.subscribe(x => ...)** part.
+
+It exposes just the **response objects** from the underlying HttpClient call through a strongly-typed **success callback** called **IObservable\<T\>**.
+
+### IObservable<T>
+
+| Reponse object | Type |
+| ---- | ---- |
+| ok | boolean |
+| body | T |
+| headers | HttpHeaders |
+| status | number |
+| statusText | string |
+
+It also exposes just the **error objects** from the underlying HttpClient call through a strongly-typed **failure callback** called **IObservableError**.
+
+### IObservableError
+
+| Reponse object | Type |
+| ---- | ---- |
+| ok | boolean |
+| body | T |
+| headers | HttpHeaders |
+| status | number |
+| statusText | string |
+
+## Sample Usage
+
+In your Service, you just create params with these callback types.
+
+Then, pass them on to the HttpClientExt's get method.
+
+```typescript
+export class RacingResponse {
+    result: string;
+}
+```
+
+```typescript
+import { Injectable, Inject } from '@angular/core'
+import { RacingResponse } from '../models/models'
+import { APP_CONFIG, AppConfig } from '../app-config.module';
+import { HttpClientExt, IObservable, IObservableError } from './http-client-ext';
+
+@Injectable()
+export class RacingService {
+    constructor(private client: HttpClientExt, @Inject(APP_CONFIG) private config: AppConfig) {
+
+    }
+
+    //Declare params of type IObservable<T> and IObservableError.
+    //These are the success and failure callbacks.
+    //The success callback will return the response objects returned by the underlying HttpClient call.
+    //The failure callback will return the error objects returned by the underlying HttpClient call.
+    getRaceInfo(success: IObservable<RacingResponse>, failure?: IObservableError) {
+        let url = this.config.apiEndpoint;
+
+        this.client.get(url, success, failure);
+    }
+}
+```
+
+In your Component, your Service is injected and the **getRaceInfo** API called as shown below.
+
+```typescript
+  ngOnInit() {
+    
+    this.service.getRaceInfo(response => this.items = response.body!.result,
+                                error => this.errorMsg = error.message);
+
+  }
+```
+
+Both, **response** and **error** returned in the callbacks are strongly typed.
+
+Also, you can still use the traditional route and return **Observable** from Service API.
+
+```typescript
+    getRaceInfo() : Observable<HttpResponse<RacingResponse>> {
+        let url = this.config.apiEndpoint;
+
+        return this.client.get(url)
+    }
+```
+
+### Implementation details
+
+So far, the **HttpClientExt** component implements below strongly-typed API.
+
+```typescript
+get<T>(url: string, success?: IObservable<T>, failure?: IObservableError, options?: any) : Observable<HttpResponse<T>>
+```
+
+# Instructions to run the demo Angular app.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.2.
 

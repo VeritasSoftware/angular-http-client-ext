@@ -1,0 +1,38 @@
+<div>
+    <div class="col-xs-12 next-to-jump rounded-corners">
+      Next to Jump
+    </div>
+    <table class="table">
+        <tbody>
+          <tr class="row" *ngFor="let item of items">
+            <td *ngIf="item.EventTypeDesc == 'Thoroughbred'">        
+                <img src="../../../assets/horse.jpg">
+            </td>
+            <td *ngIf="item.EventTypeDesc == 'Trots'">
+                <img src="../../../assets/harness.jpg">
+            </td>
+            <td *ngIf="item.EventTypeDesc == 'Greyhounds'">
+                <img src="../../../assets/greyhound.jpg">
+            </td>
+            <td>
+                <div class="col-xs-12 event-name">
+                    {{item.EventName}}
+                </div>
+                <div class="col-xs-12 venue">
+                    {{item.Venue.Venue}}
+                </div>          
+            </td>
+            <td colspan="2">
+                <div class="col-xs-12 start-time">
+                    {{item.AdvertisedStartTime | date: 'hh.mm'}}
+                </div>          
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="errorMsg != ''">
+        {{ errorMsg }}
+      </p>
+</div>
+  
+
