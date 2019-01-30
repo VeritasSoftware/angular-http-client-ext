@@ -49,11 +49,14 @@ export class RacingResponse {
 ```typescript
 import { Injectable, Inject } from '@angular/core'
 import { RacingResponse } from '../models/models'
+import { HttpClientExt, IObservable, IObservableError } from '../../../projects/angular-extended-http-client/src/lib/angular-extended-http-client.service';
 .
 .
 
 @Injectable()
 export class RacingService {
+
+    //Inject HttpClientExt component.
     constructor(private client: HttpClientExt, @Inject(APP_CONFIG) private config: AppConfig) {
 
     }
