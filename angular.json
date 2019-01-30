@@ -133,6 +133,41 @@
           }
         }
       }
+    },
+    "angular-extended-http-client": {
+      "root": "projects/angular-extended-http-client",
+      "sourceRoot": "projects/angular-extended-http-client/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/angular-extended-http-client/tsconfig.lib.json",
+            "project": "projects/angular-extended-http-client/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/angular-extended-http-client/src/test.ts",
+            "tsConfig": "projects/angular-extended-http-client/tsconfig.spec.json",
+            "karmaConfig": "projects/angular-extended-http-client/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/angular-extended-http-client/tsconfig.lib.json",
+              "projects/angular-extended-http-client/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "angular-http-client-ext"

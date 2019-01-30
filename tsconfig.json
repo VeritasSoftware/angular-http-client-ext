@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "angular-extended-http-client": [
+        "dist/angular-extended-http-client"
+      ],
+      "angular-extended-http-client/*": [
+        "dist/angular-extended-http-client/*"
+      ]
+    }
   }
 }
