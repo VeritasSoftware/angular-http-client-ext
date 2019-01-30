@@ -12,7 +12,7 @@ The component encapsulates the **.subscribe(x => ...)** part.
 
 It exposes just the **response objects** from the underlying HttpClient call through a strongly-typed **success callback** called **IObservable\<T\>**.
 
-### IObservable\<T\>
+### IObservable\<T\> success callback
 
 | Reponse object | Type |
 | ---- | ---- |
@@ -24,7 +24,7 @@ It exposes just the **response objects** from the underlying HttpClient call thr
 
 It also exposes just the **error objects** from the underlying HttpClient call through a strongly-typed **failure callback** called **IObservableError**.
 
-### IObservableError
+### IObservableError failure callback
 
 | Reponse object | Type |
 | ---- | ---- |
