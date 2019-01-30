@@ -12,7 +12,7 @@ The component encapsulates the **.subscribe(x => ...)** part.
 
 It exposes just the **response objects** from the underlying HttpClient call through a strongly-typed **success callback** called **IObservable\<T\>**.
 
-### IObservable<T>
+### IObservable\<T\>
 
 | Reponse object | Type |
 | ---- | ---- |
