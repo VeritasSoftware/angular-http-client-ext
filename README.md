@@ -84,6 +84,7 @@ In your Component, your Service is injected and the **getRaceInfo** API called a
 ```
 
 Both, **response** and **error** returned in the callbacks are strongly typed.
+Eg. **response.body** is type RacingResponse.
 
 Also, you can still use the traditional route and return **Observable** from Service API.
 
