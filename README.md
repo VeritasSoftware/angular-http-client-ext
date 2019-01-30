@@ -1,3 +1,4 @@
+# angular-extended-http-client
 # Extended HttpClient library
 ## The library allows using Angular's HttpClient with strongly-typed callbacks.
 ### HttpClientExt
