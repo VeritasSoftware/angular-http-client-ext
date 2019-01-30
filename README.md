@@ -1,5 +1,5 @@
 # Extended HttpClient library
-## The library allows using HttpClient with strongly-typed callbacks.
+## The library allows using Angular's HttpClient with strongly-typed callbacks.
 ### HttpClientExt
 
 The Angular component is an extended HttpClient. It uses HttpClient under the covers.
