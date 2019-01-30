@@ -105,7 +105,12 @@ So far, the **HttpClientExt** component implements below strongly-typed API.
 get<T>(url: string, success?: IObservable<T>, failure?: IObservableError, options?: any) : Observable<HttpResponse<T>>
 ```
 
-# Instructions to run the demo Angular app.
+# Demo Angular app
+## App demoes the library.
+
+## Screenshot
+
+![Demo UI app](https://github.com/VeritasSoftware/angular-http-client-ext/blob/master/DemoUI.jpg)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.2.
 
