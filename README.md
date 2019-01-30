@@ -26,7 +26,7 @@ It also exposes just the **error objects** from the underlying HttpClient call t
 
 ### IObservableError failure callback
 
-| Reponse object | Type |
+| Error object | Type |
 | ---- | ---- |
 | ok | boolean |
 | body | T |
@@ -73,9 +73,8 @@ export class RacingService {
 In your Component, your Service is injected and the **getRaceInfo** API called as shown below.
 
 ```typescript
-  ngOnInit() {
-    
-    this.service.getRaceInfo(response => this.items = response.body!.result,
+  ngOnInit() {    
+    this.service.getRaceInfo(response => this.result = response.body!.result,
                                 error => this.errorMsg = error.message);
 
   }
