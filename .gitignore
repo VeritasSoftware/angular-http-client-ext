@@ -1,7 +1,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
+# /dist
 /tmp
 /out-tsc
 
@@ -42,3 +42,11 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+projects/angular-extended-http-client/node_modules/.cache/terser-webpack-plugin/index-v5/80/70/409bbffb386f620379f56d94e622b913288b61524a2cd5bc8744bbc7f58a
+projects/angular-extended-http-client/node_modules/.cache/terser-webpack-plugin/content-v2/sha512/05/05/92169a3c17eda53f857e2a2a68d4051748d7a3d26eca01384cf7724e63e2772800ba9b074fc8d66903f47d1e5997596386298b8a9bd1ffc852a104576e46
+projects/angular-extended-http-client/node_modules/.cache/terser-webpack-plugin/content-v2/sha512/50/e7/b69601b9ae063c893f0b7ce1495dcc582470550e24582c7cc12e556a1f59aaf5be19dc67413f9ec854cd8677981e56d25e3e4d76733c005ee691f3c79309
+projects/angular-extended-http-client/node_modules/.cache/terser-webpack-plugin/content-v2/sha512/6b/5d/43b192242c0cec3dd724a99142adcdddd0e699bda3b16b701b6700f65f1215741c6748944e900ba9e0efc997fa817bff42bdc508c68d966113c7ebda29c3
+projects/angular-extended-http-client/node_modules/.cache/terser-webpack-plugin/content-v2/sha512/94/c5/ebfa3ed616932dd25d92eac8b92827a6a0072a4f3f5f9dea47df07900b72998402247d6c5e2f046bb67a527babb116f051fe5722db123d42efe80cb1c5cc
+projects/angular-extended-http-client/node_modules/.cache/terser-webpack-plugin/index-v5/08/da/095ddb82e2e14b93e722b69c7631b009be23f99d0d46c51922b982af8866
+projects/angular-extended-http-client/node_modules/.cache/terser-webpack-plugin/index-v5/1f/80/1f95d5137e1596594493f5f91b47664e88761f3da064d3463b9a671bb140
+projects/angular-extended-http-client/node_modules/.cache/terser-webpack-plugin/index-v5/67/6b/e61ddbca2b1e7c956e5b6181cdda55ca99eec92af10decf013ef3afad466

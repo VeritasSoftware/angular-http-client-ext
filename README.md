@@ -49,7 +49,7 @@ export class RacingResponse {
 ```typescript
 import { Injectable, Inject } from '@angular/core'
 import { RacingResponse } from '../models/models'
-import { HttpClientExt, IObservable, IObservableError } from '../../../projects/angular-extended-http-client/src/lib/angular-extended-http-client.service';
+import { HttpClientExt, IObservable, IObservableError } from '../../../dist/angular-extended-http-client';
 .
 .
 
