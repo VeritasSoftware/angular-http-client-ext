@@ -29,7 +29,7 @@ It also exposes just the **error objects** from the underlying HttpClient call t
 | Error object | Type |
 | ---- | ---- |
 | ok | boolean |
-| body | T |
+| message | string |
 | headers | HttpHeaders |
 | status | number |
 | statusText | string |

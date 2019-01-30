@@ -79,7 +79,6 @@ export class HttpClientExt implements IHttpClientExtended {
                         success(subscribe);                            
                     }                        
                 }, error => {
-                    debugger;
                     let subscribe: SubscribeError = new SubscribeError();
                     subscribe.ok = false;
                     subscribe.headers = error.headers;

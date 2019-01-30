@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiEndpoint: "ttps://s3-ap-southeast-2.amazonaws.com/bet-easy-code-challenge/next-to-jump"
+  apiEndpoint: "https://s3-ap-southeast-2.amazonaws.com/bet-easy-code-challenge/next-to-jump"
 };
 
 /*

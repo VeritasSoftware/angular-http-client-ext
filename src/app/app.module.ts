@@ -6,10 +6,12 @@ import { AppComponent } from './app.component';
 import { AppConfigModule } from './app-config.module';
 import { HttpClientExtModule } from 'projects/angular-extended-http-client/src/public_api';
 import { RacingService } from './services/racing-service.service';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
