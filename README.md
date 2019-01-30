@@ -102,7 +102,11 @@ Also, you can still use the traditional route and return **Observable** from Ser
 So far, the **HttpClientExt** component implements below strongly-typed API.
 
 ```typescript
-get<T>(url: string, success?: IObservable<T>, failure?: IObservableError, options?: any) : Observable<HttpResponse<T>>
+    get<T>(url: string, success?: IObservable<T>, failure?: IObservableError, options?: any) : Observable<HttpResponse<T>>
+
+    post<TRequest, TResponse>(url: string, model: TRequest, 
+                              success?: IObservable<TResponse>, 
+                              failure?: IObservableError, options?: any) : Observable<HttpResponse<TResponse>>
 ```
 
 # Demo Angular 7 app

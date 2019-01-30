@@ -40,9 +40,13 @@ export declare class SubscribeError implements ISubscribeError {
 }
 export interface IHttpClientExtended {
     get<T>(url: string, success?: IObservable<T>, failure?: IObservableError, options?: any): Observable<HttpResponse<T>>;
+    post<TRequest, TResponse>(url: string, model: TRequest, success?: IObservable<TResponse>, failure?: IObservableError, options?: any): Observable<HttpResponse<TResponse>>;
 }
 export declare class HttpClientExt implements IHttpClientExtended {
     private client;
     constructor(client: HttpClient);
     get<T>(url: string, success?: IObservable<T>, failure?: IObservableError, options?: any): Observable<HttpResponse<T>>;
+    post<TRequest, TResponse>(url: string, model: TRequest, success?: IObservable<TResponse>, failure?: IObservableError, options?: any): Observable<HttpResponse<TResponse>>;
+    private processSuccessResponse;
+    private processErrorResponse;
 }

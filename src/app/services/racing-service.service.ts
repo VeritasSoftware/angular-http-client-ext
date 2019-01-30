@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core'
 import { RacingResponse } from '../models/models'
 import { APP_CONFIG, AppConfig } from '../app-config.module';
 import { HttpClientExt, IObservable, IObservableError } from '../../../dist/angular-extended-http-client';
+//import { HttpClientExt, IObservable, IObservableError } from '../../../projects/angular-extended-http-client/src/lib/angular-extended-http-client.service';
 import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 

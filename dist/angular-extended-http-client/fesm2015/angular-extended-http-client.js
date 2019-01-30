@@ -32,29 +32,68 @@ class HttpClientExt {
         let httpResponse = this.client.get(url, options != null ? { headers: options.headers, observe: 'response' } : { observe: 'response' });
         if (success != null) {
             httpResponse
-                .subscribe(x => {
-                if (x.ok) {
-                    /** @type {?} */
-                    let subscribe = new Subscribe();
-                    subscribe.ok = x.ok;
-                    subscribe.status = x.status;
-                    subscribe.statusText = x.statusText;
-                    subscribe.body = x.body;
-                    subscribe.headers = x.headers;
-                    success(subscribe);
-                }
-            }, error => {
-                /** @type {?} */
-                let subscribe = new SubscribeError();
-                subscribe.ok = false;
-                subscribe.headers = error.headers;
-                subscribe.message = error.message;
-                subscribe.status = error.status;
-                subscribe.statusText = error.statusText;
-                failure(subscribe);
-            });
+                .subscribe(x => this.processSuccessResponse(x, success), error => this.processErrorResponse(error, failure));
         }
         return httpResponse;
+    }
+    /**
+     * @template TRequest, TResponse
+     * @param {?} url
+     * @param {?} model
+     * @param {?=} success
+     * @param {?=} failure
+     * @param {?=} options
+     * @return {?}
+     */
+    post(url, model, success, failure, options) {
+        /** @type {?} */
+        let httpResponse = this.client.post(url, model, options != null ?
+            { headers: options.headers, observe: 'response' }
+            : { observe: 'response' });
+        if (success != null) {
+            httpResponse
+                .subscribe(x => this.processSuccessResponse(x, success), error => this.processErrorResponse(error, failure));
+        }
+        return httpResponse;
+    }
+    /**
+     * @private
+     * @template TResponse
+     * @param {?} response
+     * @param {?} success
+     * @return {?}
+     */
+    processSuccessResponse(response, success) {
+        if (success != null) {
+            if (response.ok) {
+                /** @type {?} */
+                let subscribe = new Subscribe();
+                subscribe.ok = response.ok;
+                subscribe.status = response.status;
+                subscribe.statusText = response.statusText;
+                subscribe.body = response.body;
+                subscribe.headers = response.headers;
+                success(subscribe);
+            }
+        }
+    }
+    /**
+     * @private
+     * @param {?} error
+     * @param {?} failure
+     * @return {?}
+     */
+    processErrorResponse(error, failure) {
+        if (failure != null) {
+            /** @type {?} */
+            let subscribe = new SubscribeError();
+            subscribe.ok = false;
+            subscribe.headers = error.headers;
+            subscribe.message = error.message;
+            subscribe.status = error.status;
+            subscribe.statusText = error.statusText;
+            failure(subscribe);
+        }
     }
 }
 HttpClientExt.decorators = [

@@ -51,6 +51,10 @@ export class SubscribeError implements ISubscribeError {
 
 export interface IHttpClientExtended {
     get<T>(url: string, success?: IObservable<T>, failure?: IObservableError, options?: any) : Observable<HttpResponse<T>>;
+
+    post<TRequest, TResponse>(url: string, model: TRequest, 
+                              success?: IObservable<TResponse>, 
+                              failure?: IObservableError, options?: any) : Observable<HttpResponse<TResponse>>;
 }
 
 @Injectable({
@@ -67,29 +71,53 @@ export class HttpClientExt implements IHttpClientExtended {
 
         if (success != null) {
             httpResponse
-                .subscribe(x => {
-                    if (x.ok) {
-                        let subscribe: Subscribe<T> = new Subscribe<T>();
-                        subscribe.ok = x.ok;
-                        subscribe.status = x.status;
-                        subscribe.statusText = x.statusText;
-                        subscribe.body = x.body;                        
-                        subscribe.headers = x.headers;
-                                
-                        success(subscribe);                            
-                    }                        
-                }, error => {
-                    let subscribe: SubscribeError = new SubscribeError();
-                    subscribe.ok = false;
-                    subscribe.headers = error.headers;
-                    subscribe.message = error.message;
-                    subscribe.status = error.status;
-                    subscribe.statusText = error.statusText;
-
-                    failure(subscribe);
-                });
+                .subscribe(x => this.processSuccessResponse(x,success), error => this.processErrorResponse(error, failure));
         }        
 
         return httpResponse;                   
     }
+
+    post<TRequest, TResponse>(url: string, model: TRequest, 
+                                success?: IObservable<TResponse>, 
+                                failure?: IObservableError, options?: any) : Observable<HttpResponse<TResponse>> {                
+      let httpResponse = this.client.post<TResponse>(url, model, options != null ? 
+                                                                  { headers: options.headers, observe: 'response' } 
+                                                                  : {observe: 'response'})
+      if (success != null) {
+          httpResponse
+              .subscribe(x => this.processSuccessResponse(x,success), error => this.processErrorResponse(error, failure));
+      }        
+
+      return httpResponse;                   
+  }    
+
+  private processSuccessResponse<TResponse>(response: HttpResponse<TResponse>, success: IObservable<TResponse>) : void {
+
+    if (success != null) {
+      if (response.ok) {
+        let subscribe: Subscribe<TResponse> = new Subscribe<TResponse>();
+        subscribe.ok = response.ok;
+        subscribe.status = response.status;
+        subscribe.statusText = response.statusText;
+        subscribe.body = response.body;                        
+        subscribe.headers = response.headers;
+                
+        success(subscribe);                            
+      }                        
+    }      
+  }
+
+  private processErrorResponse(error: any, failure: IObservableError) : void {
+
+    if (failure != null) {
+      let subscribe: SubscribeError = new SubscribeError();
+      subscribe.ok = false;
+      subscribe.headers = error.headers;
+      subscribe.message = error.message;
+      subscribe.status = error.status;
+      subscribe.statusText = error.statusText;
+
+      failure(subscribe);
+    }      
+  }  
 }
