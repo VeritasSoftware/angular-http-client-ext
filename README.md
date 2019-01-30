@@ -49,8 +49,8 @@ export class RacingResponse {
 ```typescript
 import { Injectable, Inject } from '@angular/core'
 import { RacingResponse } from '../models/models'
-import { APP_CONFIG, AppConfig } from '../app-config.module';
-import { HttpClientExt, IObservable, IObservableError } from './http-client-ext';
+.
+.
 
 @Injectable()
 export class RacingService {
