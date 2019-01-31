@@ -35,6 +35,17 @@ It also exposes just the **error objects** from the underlying HttpClient call t
 | status | number |
 | statusText | string |
 
+### IObservableCustomError\<T\> failure callback
+
+| Error object | Type |
+| ---- | ---- |
+| ok | boolean |
+| error | T |
+| message | string |
+| headers | HttpHeaders |
+| status | number |
+| statusText | string |
+
 ## Sample Usage
 
 In your Service, you just create params with these callback types.
