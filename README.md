@@ -114,10 +114,16 @@ So far, the **HttpClientExt** component implements below strongly-typed API.
 
 ```typescript
     get<T>(url: string, success?: IObservable<T>, failure?: IObservableError, options?: any) : Observable<HttpResponse<T>>
+    
+    getUsingCustomError<T, TError>(url: string, success?: IObservable<T>, failure?: IObservableCustomError<TError>, options?: any) : Observable<HttpResponse<T>>
 
     post<TRequest, TResponse>(url: string, model: TRequest, 
                               success?: IObservable<TResponse>, 
                               failure?: IObservableError, options?: any) : Observable<HttpResponse<TResponse>>
+
+    postUsingCustomError<TRequest, TResponse, TError>(url: string, model: TRequest, 
+                                                        success?: IObservable<TResponse>, 
+                                                        failure?: IObservableCustomError<TError>, options?: any) : Observable<HttpResponse<TResponse>>
 ```
 
 # Demo Angular 7 app
