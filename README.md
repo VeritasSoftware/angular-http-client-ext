@@ -7,15 +7,17 @@ The Angular component is an extended HttpClient. It uses HttpClient under the co
 
 **HttpClientExt** exposes HttpClient data via strongly-typed callbacks.
 
-This keeps the code cleaner by not having to repeat **.subscribe(x => ...)** all over your code when using **Observables**.
+This keeps the code cleaner by not having to repeat **.subscribe(x => ...)** all over the rest of your code when using **Observables**.
 
-Hence, there is tight coupling between the **http** layer and your code.
+Due to this, there is tight coupling between the **http** layer and the rest of your code.
 
-This component encapsulates the **.subscribe(x => ...)** part.
+This component encapsulates the **.subscribe(x => ...)** part and exposes only the data and error through your Models.
 
-### So, you only have to deal with your Models in your code when using the strongly-typed callbacks.
+### So, you only have to deal with your Models in the rest of your code when using strongly-typed callbacks.
 
-It exposes just the **response objects** from the underlying HttpClient call through a strongly-typed **success callback** called **IObservable\<T\>**.
+## Strongly-typed callback types
+
+The library exposes just the **response objects** from the underlying HttpClient call through a strongly-typed **success callback** called **IObservable\<T\>**.
 
 ### IObservable\<T\> success callback
 
