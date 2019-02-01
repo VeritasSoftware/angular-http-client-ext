@@ -24,6 +24,7 @@ It exposes just the **response objects** from the underlying HttpClient call thr
 | statusText | string |
 
 It also exposes just the **error objects** from the underlying HttpClient call through a strongly-typed **failure callback** called **IObservableError**.
+If the error has an object returned with it, the strongly-typed failure callback **IObservableCustomError\<TError\>** can be used.
 
 ### IObservableError failure callback
 
@@ -35,7 +36,7 @@ It also exposes just the **error objects** from the underlying HttpClient call t
 | status | number |
 | statusText | string |
 
-### IObservableCustomError\<T\> failure callback
+### IObservableCustomError\<TError\> failure callback
 
 | Error object | Type |
 | ---- | ---- |
