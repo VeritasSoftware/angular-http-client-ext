@@ -7,6 +7,8 @@ The Angular component is an extended HttpClient. It uses HttpClient under the co
 
 **HttpClientExt** exposes HttpClient data via strongly-typed callbacks.
 
+## Raison d'être
+
 When using Observable with HttpClient, you have to repeat **.subscribe(x => ...)** all over the rest of your code.
 
 Due to this, there is **tight coupling** between the **http layer** and the **rest of your code**.
