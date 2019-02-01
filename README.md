@@ -9,7 +9,11 @@ The Angular component is an extended HttpClient. It uses HttpClient under the co
 
 This keeps the code cleaner by not having to repeat **.subscribe(x => ...)** all over your code when using **Observables**.
 
-The component encapsulates the **.subscribe(x => ...)** part.
+Hence, there is tight coupling between the **http** layer and your code.
+
+This component encapsulates the **.subscribe(x => ...)** part.
+
+### So, you only have to deal with your Models in your code when using the strongly-typed callbacks.
 
 It exposes just the **response objects** from the underlying HttpClient call through a strongly-typed **success callback** called **IObservable\<T\>**.
 
@@ -50,15 +54,19 @@ If the error has a custom object returned with it, the strongly-typed failure ca
 
 ## Sample Usage
 
-In your Service, you just create params with these callback types.
-
-Then, pass them on to the HttpClientExt's get method.
+### Your Models
 
 ```typescript
 export class RacingResponse {
     result: string;
 }
 ```
+
+### Your Service
+
+In your Service, you just create params with these callback types.
+
+Then, pass them on to the HttpClientExt's get method.
 
 ```typescript
 import { Injectable, Inject } from '@angular/core'
@@ -87,6 +95,8 @@ export class RacingService {
 }
 ```
 
+### Your Component
+
 In your Component, your Service is injected and the **getRaceInfo** API called as shown below.
 
 ```typescript
@@ -99,6 +109,8 @@ In your Component, your Service is injected and the **getRaceInfo** API called a
 
 Both, **response** and **error** returned in the callbacks are strongly typed.
 Eg. **response.body** is type RacingResponse.
+
+You only with deal with your Models in these strongly-typed callbacks.
 
 Also, you can still use the traditional route and return **Observable** from Service API.
 
