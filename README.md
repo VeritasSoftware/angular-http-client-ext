@@ -7,11 +7,11 @@ The Angular component is an extended HttpClient. It uses HttpClient under the co
 
 **HttpClientExt** exposes HttpClient data via strongly-typed callbacks.
 
-This keeps the code cleaner by not having to repeat **.subscribe(x => ...)** all over the rest of your code when using **Observables**.
+When using Observable with HttpClient, you have to repeat **.subscribe(x => ...)** all over the rest of your code.
 
-Due to this, there is tight coupling between the **http** layer and the rest of your code.
+Due to this, there is **tight coupling** between the **http layer** and the **rest of your code**.
 
-This component encapsulates the **.subscribe(x => ...)** part and exposes only the data and error through your Models.
+This library encapsulates the **.subscribe(x => ...)** part and exposes only the data and error through your Models.
 
 ### So, you only have to deal with your Models in the rest of your code when using strongly-typed callbacks.
 
