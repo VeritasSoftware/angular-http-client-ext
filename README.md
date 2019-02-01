@@ -42,7 +42,7 @@ If the error has a custom object returned with it, the strongly-typed failure ca
 | Error object | Type |
 | ---- | ---- |
 | ok | boolean |
-| error | T |
+| error | TError |
 | message | string |
 | headers | HttpHeaders |
 | status | number |
