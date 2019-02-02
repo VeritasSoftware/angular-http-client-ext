@@ -155,13 +155,15 @@ So far, the **HttpClientExt** component implements below strongly-typed API.
                                 failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
 
     postUsingHttpResponse<TRequest, TResponse>(url: string, model: TRequest, 
-                                                        success?: IObservableHttpResponse<TResponse>, 
-                                                        failureType?: ErrorType,
-                                                        failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
+                                                    success?: IObservableHttpResponse<TResponse>, 
+                                                    failureType?: ErrorType,
+                                                    failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
 ```
 
 # Demo Angular 7 app
 ## App demoes the library.
+
+All http calls in the demo app use the library.
 
 ## Screenshot
 
