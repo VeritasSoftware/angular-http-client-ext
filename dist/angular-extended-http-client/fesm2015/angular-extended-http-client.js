@@ -17,6 +17,15 @@ class SubscribeError {
  */
 class SubscribeCustomError {
 }
+/** @enum {number} */
+const ErrorType = {
+    IObservableError: 0,
+    IObservableCustomError: 1,
+    IObservableHttpCustomError: 2,
+};
+ErrorType[ErrorType.IObservableError] = 'IObservableError';
+ErrorType[ErrorType.IObservableCustomError] = 'IObservableCustomError';
+ErrorType[ErrorType.IObservableHttpCustomError] = 'IObservableHttpCustomError';
 class HttpClientExt {
     /**
      * @param {?} client
@@ -28,33 +37,17 @@ class HttpClientExt {
      * @template T
      * @param {?} url
      * @param {?=} success
+     * @param {?=} failureType
      * @param {?=} failure
      * @param {?=} options
      * @return {?}
      */
-    get(url, success, failure, options) {
+    get(url, success, failureType, failure, options) {
         /** @type {?} */
         let httpResponse = this.client.get(url, options != null ? { headers: options.headers, observe: 'response' } : { observe: 'response' });
         if (success != null) {
             httpResponse
-                .subscribe(x => this.processSuccessResponse(x, success), error => this.processErrorResponse(error, failure));
-        }
-        return httpResponse;
-    }
-    /**
-     * @template T, TError
-     * @param {?} url
-     * @param {?=} success
-     * @param {?=} failure
-     * @param {?=} options
-     * @return {?}
-     */
-    getUsingCustomError(url, success, failure, options) {
-        /** @type {?} */
-        let httpResponse = this.client.get(url, options != null ? { headers: options.headers, observe: 'response' } : { observe: 'response' });
-        if (success != null) {
-            httpResponse
-                .subscribe(x => this.processSuccessResponse(x, success), error => this.processCustomErrorResponse((/** @type {?} */ (error)), failure));
+                .subscribe(x => this.processSuccessResponse(x, success), error => this.processErrorResponse(error, failure, failureType));
         }
         return httpResponse;
     }
@@ -62,33 +55,17 @@ class HttpClientExt {
      * @template T
      * @param {?} url
      * @param {?=} success
+     * @param {?=} failureType
      * @param {?=} failure
      * @param {?=} options
      * @return {?}
      */
-    getUsingHttpResponse(url, success, failure, options) {
+    getUsingHttpResponse(url, success, failureType, failure, options) {
         /** @type {?} */
         let httpResponse = this.client.get(url, options != null ? { headers: options.headers, observe: 'response' } : { observe: 'response' });
         if (success != null) {
             httpResponse
-                .subscribe(x => this.processSuccessHttpResponse(x, success), error => this.processErrorResponse(error, failure));
-        }
-        return httpResponse;
-    }
-    /**
-     * @template T, TError
-     * @param {?} url
-     * @param {?=} success
-     * @param {?=} failure
-     * @param {?=} options
-     * @return {?}
-     */
-    getUsingHttpCustomError(url, success, failure, options) {
-        /** @type {?} */
-        let httpResponse = this.client.get(url, options != null ? { headers: options.headers, observe: 'response' } : { observe: 'response' });
-        if (success != null) {
-            httpResponse
-                .subscribe(x => this.processSuccessResponse(x, success), error => this.processHttpCustomError((/** @type {?} */ (error)), failure));
+                .subscribe(x => this.processSuccessHttpResponse(x, success), error => this.processErrorResponse(error, failure, failureType));
         }
         return httpResponse;
     }
@@ -97,78 +74,40 @@ class HttpClientExt {
      * @param {?} url
      * @param {?} model
      * @param {?=} success
+     * @param {?=} failureType
      * @param {?=} failure
      * @param {?=} options
      * @return {?}
      */
-    post(url, model, success, failure, options) {
+    post(url, model, success, failureType, failure, options) {
         /** @type {?} */
         let httpResponse = this.client.post(url, model, options != null ?
             { headers: options.headers, observe: 'response' }
             : { observe: 'response' });
         if (success != null) {
             httpResponse
-                .subscribe(x => this.processSuccessResponse(x, success), error => this.processErrorResponse(error, failure));
+                .subscribe(x => this.processSuccessResponse(x, success), error => this.processErrorResponse(error, failure, failureType));
         }
         return httpResponse;
     }
     /**
-     * @template TRequest, TResponse, TError
+     * @template TRequest, TResponse
      * @param {?} url
      * @param {?} model
      * @param {?=} success
+     * @param {?=} failureType
      * @param {?=} failure
      * @param {?=} options
      * @return {?}
      */
-    postUsingHttpResponse(url, model, success, failure, options) {
+    postUsingHttpResponse(url, model, success, failureType, failure, options) {
         /** @type {?} */
         let httpResponse = this.client.post(url, model, options != null ?
             { headers: options.headers, observe: 'response' }
             : { observe: 'response' });
         if (success != null) {
             httpResponse
-                .subscribe(x => this.processSuccessHttpResponse(x, success), error => this.processCustomErrorResponse((/** @type {?} */ (error)), failure));
-        }
-        return httpResponse;
-    }
-    /**
-     * @template TRequest, TResponse, TError
-     * @param {?} url
-     * @param {?} model
-     * @param {?=} success
-     * @param {?=} failure
-     * @param {?=} options
-     * @return {?}
-     */
-    postUsingCustomError(url, model, success, failure, options) {
-        /** @type {?} */
-        let httpResponse = this.client.post(url, model, options != null ?
-            { headers: options.headers, observe: 'response' }
-            : { observe: 'response' });
-        if (success != null) {
-            httpResponse
-                .subscribe(x => this.processSuccessResponse(x, success), error => this.processCustomErrorResponse((/** @type {?} */ (error)), failure));
-        }
-        return httpResponse;
-    }
-    /**
-     * @template TRequest, TResponse, TError
-     * @param {?} url
-     * @param {?} model
-     * @param {?=} success
-     * @param {?=} failure
-     * @param {?=} options
-     * @return {?}
-     */
-    postUsingHttpCustomError(url, model, success, failure, options) {
-        /** @type {?} */
-        let httpResponse = this.client.post(url, model, options != null ?
-            { headers: options.headers, observe: 'response' }
-            : { observe: 'response' });
-        if (success != null) {
-            httpResponse
-                .subscribe(x => this.processSuccessResponse(x, success), error => this.processHttpCustomError((/** @type {?} */ (error)), failure));
+                .subscribe(x => this.processSuccessHttpResponse(x, success), error => this.processErrorResponse(error, failure, failureType));
         }
         return httpResponse;
     }
@@ -209,54 +148,48 @@ class HttpClientExt {
     }
     /**
      * @private
-     * @param {?} error
-     * @param {?} failure
-     * @return {?}
-     */
-    processErrorResponse(error, failure) {
-        if (failure != null) {
-            /** @type {?} */
-            let subscribe = new SubscribeError();
-            subscribe.ok = false;
-            subscribe.headers = error.headers;
-            subscribe.message = error.message;
-            subscribe.status = error.status;
-            subscribe.statusText = error.statusText;
-            failure(subscribe);
-        }
-    }
-    /**
-     * @private
      * @template TError
      * @param {?} error
      * @param {?} failure
+     * @param {?} errorType
      * @return {?}
      */
-    processCustomErrorResponse(error, failure) {
-        if (failure != null) {
-            failure((/** @type {?} */ (error)).error);
-        }
-    }
-    /**
-     * @private
-     * @template TError
-     * @param {?} error
-     * @param {?} failure
-     * @return {?}
-     */
-    processHttpCustomError(error, failure) {
-        if (failure != null) {
-            /** @type {?} */
-            let subscribe = new SubscribeCustomError();
-            subscribe.ok = false;
-            if (error.error) {
-                subscribe.error = error.error;
-            }
-            subscribe.headers = error.headers;
-            subscribe.message = error.message;
-            subscribe.status = error.status;
-            subscribe.statusText = error.statusText;
-            failure(subscribe);
+    processErrorResponse(error, failure, errorType) {
+        switch (errorType) {
+            case ErrorType.IObservableError:
+                /** @type {?} */
+                let observableError = (/** @type {?} */ (failure));
+                /** @type {?} */
+                let subscribe1 = new SubscribeError();
+                subscribe1.ok = false;
+                subscribe1.headers = error.headers;
+                subscribe1.message = error.message;
+                subscribe1.status = error.status;
+                subscribe1.statusText = error.statusText;
+                observableError(subscribe1);
+                break;
+            case ErrorType.IObservableCustomError:
+                /** @type {?} */
+                let observableCustomError = (/** @type {?} */ (failure));
+                observableCustomError((/** @type {?} */ (error)).error);
+                break;
+            case ErrorType.IObservableHttpCustomError:
+                /** @type {?} */
+                let observableHttpCustomError = (/** @type {?} */ (failure));
+                /** @type {?} */
+                let subscribe = new SubscribeCustomError();
+                subscribe.ok = false;
+                if (error.error) {
+                    subscribe.error = error.error;
+                }
+                subscribe.headers = error.headers;
+                subscribe.message = error.message;
+                subscribe.status = error.status;
+                subscribe.statusText = error.statusText;
+                observableHttpCustomError(subscribe);
+                break;
+            default:
+                break;
         }
     }
 }
@@ -294,6 +227,6 @@ HttpClientExtModule.decorators = [
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { Subscribe, SubscribeError, SubscribeCustomError, HttpClientExt, HttpClientExtModule };
+export { Subscribe, SubscribeError, SubscribeCustomError, ErrorType, HttpClientExt, HttpClientExtModule };
 
 //# sourceMappingURL=angular-extended-http-client.js.map

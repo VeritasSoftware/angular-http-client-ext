@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@angular/core'
-import { RacingResponse } from '../models/models'
+import { RacingResponse, Movie, ServiceException } from '../models/models'
 import { APP_CONFIG, AppConfig } from '../app-config.module';
-import { HttpClientExt, IObservable, IObservableError } from '../../../dist/angular-extended-http-client';
-//import { HttpClientExt, IObservable, IObservableError } from '../../../projects/angular-extended-http-client/src/lib/angular-extended-http-client.service';
+import { HttpClientExt, IObservable, IObservableError, IObservableCustomError, ErrorType } from '../../../dist/angular-extended-http-client';
+//import { HttpClientExt, IObservable, IObservableError, IObservableCustomError, ErrorType } from '../../../projects/angular-extended-http-client/src/lib/angular-extended-http-client.service';
 import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 
@@ -15,12 +15,6 @@ export class RacingService {
     getRaceInfo(success: IObservable<RacingResponse>, failure?: IObservableError) {
         let url = this.config.apiEndpoint;
 
-        this.client.get(url, success, failure);
-    }
-
-    getRaceInfoTraditional() : Observable<HttpResponse<RacingResponse>> {
-        let url = this.config.apiEndpoint;
-
-        return this.client.get(url)
+        this.client.get(url, success, ErrorType.IObservableError, failure);
     }
 }
