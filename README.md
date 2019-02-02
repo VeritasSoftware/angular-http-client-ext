@@ -154,7 +154,7 @@ So far, the **HttpClientExt** component implements below strongly-typed API.
                                 failureType?: ErrorType,
                                 failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
 
-    postUsingHttpResponse<TRequest, TResponse, TError>(url: string, model: TRequest, 
+    postUsingHttpResponse<TRequest, TResponse>(url: string, model: TRequest, 
                                                         success?: IObservableHttpResponse<TResponse>, 
                                                         failureType?: ErrorType,
                                                         failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
