@@ -15,7 +15,7 @@ Due to this, there is **tight coupling** between the **http layer** and the **re
 
 This library encapsulates the **.subscribe(x => ...)** part and exposes only the data and error through your Models.
 
-**So, you only have to deal with your Models in the rest of your code when using strongly-typed callbacks.**
+**So, with strongly-typed callbacks, you only have to deal with your Models in the rest of your code.**
 
 ## Strongly-typed callback types
 
