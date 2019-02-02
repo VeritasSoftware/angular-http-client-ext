@@ -25,7 +25,7 @@ This returns the **your response model** from the underlying HttpClient call.
 
 ### IObservableHttpResponse\<T\> success callback
 
-This returns the **response object with your model** from the underlying HttpClient call.
+This returns the **http response with your model** from the underlying HttpClient call.
 
 | Response object | Type |
 | ---- | ---- |
@@ -37,7 +37,7 @@ This returns the **response object with your model** from the underlying HttpCli
 
 ### IObservableError failure callback
 
-This returns the http error from the underlying HttpClient call.
+This returns the **http error** from the underlying HttpClient call.
 
 | Error object | Type |
 | ---- | ---- |
@@ -49,11 +49,11 @@ This returns the http error from the underlying HttpClient call.
 
 ### IObservableCustomError\<TError\> failure callback
 
-This returns the your your custom error model from the underlying HttpClient call.
+This returns the your **error model** from the underlying HttpClient call.
 
 ### IObservableHttpCustomError\<TError\> failure callback
 
-This returns the your http custom error model from the underlying HttpClient call.
+This returns the **http error with your error model** from the underlying HttpClient call.
 
 | Error object | Type |
 | ---- | ---- |
