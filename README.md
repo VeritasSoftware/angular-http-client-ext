@@ -83,7 +83,7 @@ Then, pass them on to the HttpClientExt's get method.
 ```typescript
 import { Injectable, Inject } from '@angular/core'
 import { RacingResponse } from '../models/models'
-import { HttpClientExt, IObservable, IObservableError } from '../../../dist/angular-extended-http-client';
+import { HttpClientExt, IObservable, IObservableError, ErrorType } from '../../../dist/angular-extended-http-client';
 .
 .
 
@@ -102,7 +102,7 @@ export class RacingService {
     getRaceInfo(success: IObservable<RacingResponse>, failure?: IObservableError) {
         let url = this.config.apiEndpoint;
 
-        this.client.get(url, success, failure);
+        this.client.get(url, success, ErrorType.IObservableError, failure);
     }
 }
 ```
@@ -125,6 +125,8 @@ Eg. **response** is type **RacingResponse**.
 
 You only with deal with Models in these strongly-typed callbacks.
 
+So, the rest of your code knows only about your Models.
+
 Also, you can still use the traditional route and return **Observable** from Service API.
 
 ```typescript
@@ -140,29 +142,22 @@ Also, you can still use the traditional route and return **Observable** from Ser
 So far, the **HttpClientExt** component implements below strongly-typed API.
 
 ```typescript
-    get<T>(url: string, success?: IObservable<T>, failure?: IObservableError, options?: any) : Observable<HttpResponse<T>>
+    get<T>(url: string, success?: IObservable<T>, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>>;
 
-    getUsingHttpResponse<T>(url: string, success?: IObservableHttpResponse<T>, failure?: IObservableError, options?: any) : Observable<HttpResponse<T>>
-
-    getUsingCustomError<T, TError>(url: string, success?: IObservable<T>, failure?: IObservableCustomError<TError>, options?: any) : Observable<HttpResponse<T>>
-
-    getUsingHttpCustomError<T, TError>(url: string, success?: IObservable<T>, failure?: IObservableHttpCustomError<TError>, options?: any) : Observable<HttpResponse<T>>
+    getUsingHttpResponse<T>(url: string, 
+                              success?: IObservableHttpResponse<T>, 
+                              failureType?: ErrorType, 
+                              failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>>;
 
     post<TRequest, TResponse>(url: string, model: TRequest, 
                                 success?: IObservable<TResponse>, 
-                                failure?: IObservableError, options?: any) : Observable<HttpResponse<TResponse>>
+                                failureType?: ErrorType,
+                                failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
 
     postUsingHttpResponse<TRequest, TResponse, TError>(url: string, model: TRequest, 
                                                         success?: IObservableHttpResponse<TResponse>, 
-                                                        failure?: IObservableCustomError<TError>, options?: any) : Observable<HttpResponse<TResponse>>                              
-
-    postUsingCustomError<TRequest, TResponse, TError>(url: string, model: TRequest, 
-                                                        success?: IObservable<TResponse>, 
-                                                        failure?: IObservableCustomError<TError>, options?: any) : Observable<HttpResponse<TResponse>>                      
-
-    postUsingHttpCustomError<TRequest, TResponse, TError>(url: string, model: TRequest, 
-                                                        success?: IObservable<TResponse>, 
-                                                        failure?: IObservableHttpCustomError<TError>, options?: any) : Observable<HttpResponse<TResponse>>
+                                                        failureType?: ErrorType,
+                                                        failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
 ```
 
 # Demo Angular 7 app
