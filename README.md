@@ -15,15 +15,19 @@ Due to this, there is **tight coupling** between the **http layer** and the **re
 
 This library encapsulates the **.subscribe(x => ...)** part and exposes only the data and error through your Models.
 
-### So, you only have to deal with your Models in the rest of your code when using strongly-typed callbacks.
+**So, you only have to deal with your Models in the rest of your code when using strongly-typed callbacks.**
 
 ## Strongly-typed callback types
 
-The library exposes just the **response objects** from the underlying HttpClient call through a strongly-typed **success callback** called **IObservable\<T\>**.
-
 ### IObservable\<T\> success callback
 
-| Reponse object | Type |
+This returns the **your response model** from the underlying HttpClient call.
+
+### IObservableHttpResponse\<T\> success callback
+
+This returns the **response object with your model** from the underlying HttpClient call.
+
+| Response object | Type |
 | ---- | ---- |
 | ok | boolean |
 | body | T |
@@ -31,11 +35,9 @@ The library exposes just the **response objects** from the underlying HttpClient
 | status | number |
 | statusText | string |
 
-It also exposes just the **error objects** from the underlying HttpClient call through a strongly-typed **failure callback** called **IObservableError**.
-
-If the error has a custom object returned with it, the strongly-typed failure callback **IObservableCustomError\<TError\>** can be used.
-
 ### IObservableError failure callback
+
+This returns the http error from the underlying HttpClient call.
 
 | Error object | Type |
 | ---- | ---- |
@@ -46,6 +48,12 @@ If the error has a custom object returned with it, the strongly-typed failure ca
 | statusText | string |
 
 ### IObservableCustomError\<TError\> failure callback
+
+This returns the your your custom error model from the underlying HttpClient call.
+
+### IObservableHttpCustomError\<TError\> failure callback
+
+This returns the your http custom error model from the underlying HttpClient call.
 
 | Error object | Type |
 | ---- | ---- |
@@ -104,17 +112,18 @@ export class RacingService {
 In your Component, your Service is injected and the **getRaceInfo** API called as shown below.
 
 ```typescript
-  ngOnInit() {    
-    this.service.getRaceInfo(response => this.result = response.body!.result,
+  ngOnInit() {
+    
+    this.service.getRaceInfo(response => this.result = response.result,
                                 error => this.errorMsg = error.message);
 
   }
 ```
 
 Both, **response** and **error** returned in the callbacks are strongly typed.
-Eg. **response.body** is type RacingResponse.
+Eg. **response** is type **RacingResponse**.
 
-You only with deal with your Models in these strongly-typed callbacks.
+You only with deal with Models in these strongly-typed callbacks.
 
 Also, you can still use the traditional route and return **Observable** from Service API.
 
@@ -132,16 +141,28 @@ So far, the **HttpClientExt** component implements below strongly-typed API.
 
 ```typescript
     get<T>(url: string, success?: IObservable<T>, failure?: IObservableError, options?: any) : Observable<HttpResponse<T>>
-    
+
+    getUsingHttpResponse<T>(url: string, success?: IObservableHttpResponse<T>, failure?: IObservableError, options?: any) : Observable<HttpResponse<T>>
+
     getUsingCustomError<T, TError>(url: string, success?: IObservable<T>, failure?: IObservableCustomError<TError>, options?: any) : Observable<HttpResponse<T>>
 
+    getUsingHttpCustomError<T, TError>(url: string, success?: IObservable<T>, failure?: IObservableHttpCustomError<TError>, options?: any) : Observable<HttpResponse<T>>
+
     post<TRequest, TResponse>(url: string, model: TRequest, 
-                              success?: IObservable<TResponse>, 
-                              failure?: IObservableError, options?: any) : Observable<HttpResponse<TResponse>>
+                                success?: IObservable<TResponse>, 
+                                failure?: IObservableError, options?: any) : Observable<HttpResponse<TResponse>>
+
+    postUsingHttpResponse<TRequest, TResponse, TError>(url: string, model: TRequest, 
+                                                        success?: IObservableHttpResponse<TResponse>, 
+                                                        failure?: IObservableCustomError<TError>, options?: any) : Observable<HttpResponse<TResponse>>                              
 
     postUsingCustomError<TRequest, TResponse, TError>(url: string, model: TRequest, 
                                                         success?: IObservable<TResponse>, 
-                                                        failure?: IObservableCustomError<TError>, options?: any) : Observable<HttpResponse<TResponse>>
+                                                        failure?: IObservableCustomError<TError>, options?: any) : Observable<HttpResponse<TResponse>>                      
+
+    postUsingHttpCustomError<TRequest, TResponse, TError>(url: string, model: TRequest, 
+                                                        success?: IObservable<TResponse>, 
+                                                        failure?: IObservableHttpCustomError<TError>, options?: any) : Observable<HttpResponse<TResponse>>
 ```
 
 # Demo Angular 7 app

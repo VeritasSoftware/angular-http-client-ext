@@ -7,7 +7,12 @@ export interface IObservableBase {
 }
 
 export interface IObservable<T> extends IObservableBase {
-    (subscribe: ISubscribe<T>) : void;    
+    //(subscribe: ISubscribe<T>) : void;    
+    (subscribe: T) : void;    
+}
+
+export interface IObservableHttpResponse<T> extends IObservableBase {
+  (subscribe: ISubscribe<T>) : void;    
 }
 
 export interface IObservableError extends IObservableBase {
@@ -15,7 +20,11 @@ export interface IObservableError extends IObservableBase {
 }
 
 export interface IObservableCustomError<TError> extends IObservableBase {
-    (error: ISubscribeCustomError<TError>) : void;
+    (error: TError) : void;
+}
+
+export interface IObservableHttpCustomError<TError> extends IObservableBase {
+  (error: ISubscribeCustomError<TError>) : void;
 }
 
 export interface ISubscribeBase {
@@ -71,16 +80,28 @@ export class SubscribeCustomError<TError> implements ISubscribeCustomError<TErro
 
 export interface IHttpClientExtended {
     get<T>(url: string, success?: IObservable<T>, failure?: IObservableError, options?: any) : Observable<HttpResponse<T>>;
-    
+
+    getUsingHttpResponse<T>(url: string, success?: IObservableHttpResponse<T>, failure?: IObservableError, options?: any) : Observable<HttpResponse<T>>;
+
     getUsingCustomError<T, TError>(url: string, success?: IObservable<T>, failure?: IObservableCustomError<TError>, options?: any) : Observable<HttpResponse<T>>;
 
+    getUsingHttpCustomError<T, TError>(url: string, success?: IObservable<T>, failure?: IObservableHttpCustomError<TError>, options?: any) : Observable<HttpResponse<T>>;
+
     post<TRequest, TResponse>(url: string, model: TRequest, 
-                              success?: IObservable<TResponse>, 
-                              failure?: IObservableError, options?: any) : Observable<HttpResponse<TResponse>>;
+                                success?: IObservable<TResponse>, 
+                                failure?: IObservableError, options?: any) : Observable<HttpResponse<TResponse>>;
+
+    postUsingHttpResponse<TRequest, TResponse, TError>(url: string, model: TRequest, 
+                                                        success?: IObservableHttpResponse<TResponse>, 
+                                                        failure?: IObservableCustomError<TError>, options?: any) : Observable<HttpResponse<TResponse>>;                              
 
     postUsingCustomError<TRequest, TResponse, TError>(url: string, model: TRequest, 
                                                         success?: IObservable<TResponse>, 
                                                         failure?: IObservableCustomError<TError>, options?: any) : Observable<HttpResponse<TResponse>>;                              
+
+    postUsingHttpCustomError<TRequest, TResponse, TError>(url: string, model: TRequest, 
+                                                        success?: IObservable<TResponse>, 
+                                                        failure?: IObservableHttpCustomError<TError>, options?: any) : Observable<HttpResponse<TResponse>>;                                                        
 }
 
 @Injectable({
@@ -93,15 +114,15 @@ export class HttpClientExt implements IHttpClientExtended {
   }
 
   get<T>(url: string, success?: IObservable<T>, failure?: IObservableError, options?: any) : Observable<HttpResponse<T>> {                
-      let httpResponse = this.client.get<T>(url, options != null ? { headers: options.headers, observe: 'response' } : {observe: 'response'})
+    let httpResponse = this.client.get<T>(url, options != null ? { headers: options.headers, observe: 'response' } : {observe: 'response'})
 
-      if (success != null) {
-          httpResponse
-              .subscribe(x => this.processSuccessResponse(x,success), error => this.processErrorResponse(error, failure));
-      }        
+    if (success != null) {
+        httpResponse
+            .subscribe(x => this.processSuccessResponse(x,success), error => this.processErrorResponse(error, failure));
+    }        
 
-      return httpResponse;                   
-  }
+    return httpResponse;                   
+  }  
 
   getUsingCustomError<T, TError>(url: string, success?: IObservable<T>, failure?: IObservableCustomError<TError>, options?: any) : Observable<HttpResponse<T>> {
     let httpResponse = this.client.get<T>(url, options != null ? { headers: options.headers, observe: 'response' } : {observe: 'response'})
@@ -114,6 +135,29 @@ export class HttpClientExt implements IHttpClientExtended {
       return httpResponse;                   
   }
 
+  getUsingHttpResponse<T>(url: string, success?: IObservableHttpResponse<T>, failure?: IObservableError, options?: any) : Observable<HttpResponse<T>> {                
+    let httpResponse = this.client.get<T>(url, options != null ? { headers: options.headers, observe: 'response' } : {observe: 'response'})
+
+    if (success != null) {
+        httpResponse
+            .subscribe(x => this.processSuccessHttpResponse(x,success), error => this.processErrorResponse(error, failure));
+    }        
+
+    return httpResponse;                   
+  }
+
+
+  getUsingHttpCustomError<T, TError>(url: string, success?: IObservable<T>, failure?: IObservableHttpCustomError<TError>, options?: any) : Observable<HttpResponse<T>> {
+    let httpResponse = this.client.get<T>(url, options != null ? { headers: options.headers, observe: 'response' } : {observe: 'response'})
+
+      if (success != null) {
+          httpResponse
+              .subscribe(x => this.processSuccessResponse(x,success), error => this.processHttpCustomError(<TError>error, failure));
+      }        
+
+      return httpResponse;                   
+  }  
+
 
   post<TRequest, TResponse>(url: string, model: TRequest, 
                               success?: IObservable<TResponse>, 
@@ -124,6 +168,20 @@ export class HttpClientExt implements IHttpClientExtended {
     if (success != null) {
         httpResponse
             .subscribe(x => this.processSuccessResponse(x,success), error => this.processErrorResponse(error, failure));
+    }        
+
+    return httpResponse;                   
+  }
+
+  postUsingHttpResponse<TRequest, TResponse, TError>(url: string, model: TRequest, 
+                                                      success?: IObservableHttpResponse<TResponse>, 
+                                                      failure?: IObservableCustomError<TError>, options?: any) : Observable<HttpResponse<TResponse>> {                
+    let httpResponse = this.client.post<TResponse>(url, model, options != null ? 
+                                                                { headers: options.headers, observe: 'response' } 
+                                                                : {observe: 'response'})
+    if (success != null) {
+        httpResponse
+            .subscribe(x => this.processSuccessHttpResponse(x,success), error => this.processCustomErrorResponse(<TError>error, failure));
     }        
 
     return httpResponse;                   
@@ -141,9 +199,32 @@ export class HttpClientExt implements IHttpClientExtended {
     }        
 
     return httpResponse;                   
+  }
+  
+  postUsingHttpCustomError<TRequest, TResponse, TError>(url: string, model: TRequest, 
+                                                      success?: IObservable<TResponse>, 
+                                                      failure?: IObservableHttpCustomError<TError>, options?: any) : Observable<HttpResponse<TResponse>> {                
+    let httpResponse = this.client.post<TResponse>(url, model, options != null ? 
+                                                                { headers: options.headers, observe: 'response' } 
+                                                                : {observe: 'response'})
+    if (success != null) {
+        httpResponse
+            .subscribe(x => this.processSuccessResponse(x,success), error => this.processHttpCustomError(<TError>error, failure));
+    }        
+
+    return httpResponse;                   
   }  
 
   private processSuccessResponse<TResponse>(response: HttpResponse<TResponse>, success: IObservable<TResponse>) : void {
+
+    if (success != null) {
+      if (response.ok) {
+        success(response!.body);
+      }                        
+    }      
+  }
+
+  private processSuccessHttpResponse<TResponse>(response: HttpResponse<TResponse>, success: IObservableHttpResponse<TResponse>) : void {
 
     if (success != null) {
       if (response.ok) {
@@ -175,8 +256,14 @@ export class HttpClientExt implements IHttpClientExtended {
 
   private processCustomErrorResponse<TError>(error: any, failure: IObservableCustomError<TError>) : void {
 
+    if (failure != null) {      
+      failure(error!.error);
+    }      
+  } 
+
+  private processHttpCustomError<TError>(error: any, failure: IObservableHttpCustomError<TError>) : void {
+
     if (failure != null) {
-      debugger;
       let subscribe: SubscribeCustomError<TError> = new SubscribeCustomError();
       subscribe.ok = false;
       if (error.error) {
@@ -189,5 +276,5 @@ export class HttpClientExt implements IHttpClientExtended {
 
       failure(subscribe);
     }      
-  }  
+  }   
 }
