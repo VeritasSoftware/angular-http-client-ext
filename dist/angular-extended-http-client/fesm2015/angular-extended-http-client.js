@@ -86,6 +86,50 @@ class HttpClientExt {
         return httpResponse;
     }
     /**
+     * @template T
+     * @param {?} url
+     * @param {?} model
+     * @param {?} responseType
+     * @param {?=} success
+     * @param {?=} failureType
+     * @param {?=} failure
+     * @param {?=} options
+     * @return {?}
+     */
+    put(url, model, responseType, success, failureType, failure, options) {
+        /** @type {?} */
+        let httpResponse = this.client.put(url, model, options != null ?
+            { headers: options.headers, observe: 'response' }
+            : { observe: 'response' });
+        if (success != null) {
+            httpResponse
+                .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
+        }
+        return httpResponse;
+    }
+    /**
+     * @template T
+     * @param {?} url
+     * @param {?} model
+     * @param {?} responseType
+     * @param {?=} success
+     * @param {?=} failureType
+     * @param {?=} failure
+     * @param {?=} options
+     * @return {?}
+     */
+    delete(url, model, responseType, success, failureType, failure, options) {
+        /** @type {?} */
+        let httpResponse = this.client.delete(url, options != null ?
+            { headers: options.headers, observe: 'response' }
+            : { observe: 'response' });
+        if (success != null) {
+            httpResponse
+                .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
+        }
+        return httpResponse;
+    }
+    /**
      * @private
      * @template TResponse
      * @param {?} responseType

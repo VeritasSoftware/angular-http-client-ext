@@ -124,6 +124,74 @@ var HttpClientExt = /** @class */ (function () {
         return httpResponse;
     };
     /**
+     * @template T
+     * @param {?} url
+     * @param {?} model
+     * @param {?} responseType
+     * @param {?=} success
+     * @param {?=} failureType
+     * @param {?=} failure
+     * @param {?=} options
+     * @return {?}
+     */
+    HttpClientExt.prototype.put = /**
+     * @template T
+     * @param {?} url
+     * @param {?} model
+     * @param {?} responseType
+     * @param {?=} success
+     * @param {?=} failureType
+     * @param {?=} failure
+     * @param {?=} options
+     * @return {?}
+     */
+    function (url, model, responseType, success, failureType, failure, options) {
+        var _this = this;
+        /** @type {?} */
+        var httpResponse = this.client.put(url, model, options != null ?
+            { headers: options.headers, observe: 'response' }
+            : { observe: 'response' });
+        if (success != null) {
+            httpResponse
+                .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
+        }
+        return httpResponse;
+    };
+    /**
+     * @template T
+     * @param {?} url
+     * @param {?} model
+     * @param {?} responseType
+     * @param {?=} success
+     * @param {?=} failureType
+     * @param {?=} failure
+     * @param {?=} options
+     * @return {?}
+     */
+    HttpClientExt.prototype.delete = /**
+     * @template T
+     * @param {?} url
+     * @param {?} model
+     * @param {?} responseType
+     * @param {?=} success
+     * @param {?=} failureType
+     * @param {?=} failure
+     * @param {?=} options
+     * @return {?}
+     */
+    function (url, model, responseType, success, failureType, failure, options) {
+        var _this = this;
+        /** @type {?} */
+        var httpResponse = this.client.delete(url, options != null ?
+            { headers: options.headers, observe: 'response' }
+            : { observe: 'response' });
+        if (success != null) {
+            httpResponse
+                .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
+        }
+        return httpResponse;
+    };
+    /**
      * @private
      * @template TResponse
      * @param {?} responseType
