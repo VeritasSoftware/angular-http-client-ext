@@ -21,11 +21,22 @@ This library encapsulates the **.subscribe(x => ...)** part and exposes only the
 
 ### IObservable\<T\> success callback
 
-This returns the **your response model** from the underlying HttpClient call.
+This returns the **your response model** from the **body** of the underlying HttpClient call.
 
-### IObservableHttpResponse\<T\> success callback
+### IObservableHttpResponse success callback
 
-This returns the **http response with your model** from the underlying HttpClient call.
+This returns the **http response** from the underlying HttpClient call.
+
+| Response object | Type |
+| ---- | ---- |
+| ok | boolean |
+| headers | HttpHeaders |
+| status | number |
+| statusText | string |
+
+### IObservableHttpCustomResponse\<T\> success callback
+
+This returns the **http response with your response model** from the underlying HttpClient call.
 
 | Response object | Type |
 | ---- | ---- |
@@ -155,9 +166,14 @@ So far, the **HttpClientExt** component implements below strongly-typed API.
     get<T>(url: string, success?: IObservable<T>, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>>;
 
     getUsingHttpResponse<T>(url: string, 
-                              success?: IObservableHttpResponse<T>, 
+                              success?: IObservableHttpResponse, 
                               failureType?: ErrorType, 
                               failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>>;
+
+    getUsingHttpCustomResponse<T>(url: string, 
+                                    success?: IObservableHttpCustomResponse<T>, 
+                                    failureType?: ErrorType, 
+                                    failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>>;
 
     post<TRequest, TResponse>(url: string, model: TRequest, 
                                 success?: IObservable<TResponse>, 
@@ -165,9 +181,14 @@ So far, the **HttpClientExt** component implements below strongly-typed API.
                                 failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
 
     postUsingHttpResponse<TRequest, TResponse>(url: string, model: TRequest, 
-                                                  success?: IObservableHttpResponse<TResponse>, 
+                                                  success?: IObservableHttpResponse, 
                                                   failureType?: ErrorType,
                                                   failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
+                                                  
+    postUsingHttpCustomResponse<TRequest, TResponse>(url: string, model: TRequest, 
+                                                      success?: IObservableHttpCustomResponse<TResponse>, 
+                                                      failureType?: ErrorType,
+                                                      failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
 ```
 
 # Demo Angular 7 app
