@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     
-    this.service.getRaceInfo(response => this.items = response.body!.result,
+    this.service.getRaceInfo(response => this.items = response.result,
                                 error => this.errorMsg = error.message);
 
   }

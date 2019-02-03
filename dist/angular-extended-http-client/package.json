@@ -1,7 +1,7 @@
 {
   "name": "angular-extended-http-client",
   "version": "0.0.1",
-  "description": "The extended http client allows using HttpClient with strongly-typed callbacks. Easier to use. The callbacks return data from underlying HttpClient calls.",
+  "description": "This Angular library allows using HttpClient with strongly-typed callbacks. Easy to use. Provides a separation between your http services and the rest of your code.",
   "author": {
     "name": "VeritasSoftware",
     "email": "veritas.software.au@gmail.com"

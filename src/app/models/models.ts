@@ -22,3 +22,7 @@ export enum EventType {
 export class Response {
     result: string;
 }
+
+export class APIException {
+    ClassName: string;
+}

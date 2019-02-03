@@ -19,11 +19,13 @@ This library encapsulates the **.subscribe(x => ...)** part and exposes only the
 
 ## Strongly-typed callback types
 
-### IObservable\<T\> success callback
+## Success callbacks
+
+### IObservable\<T\>
 
 This returns the **your response model** from the **body** of the underlying HttpClient call.
 
-### IObservableHttpResponse success callback
+### IObservableHttpResponse
 
 This returns the **http response** from the underlying HttpClient call.
 
@@ -34,7 +36,7 @@ This returns the **http response** from the underlying HttpClient call.
 | status | number |
 | statusText | string |
 
-### IObservableHttpCustomResponse\<T\> success callback
+### IObservableHttpCustomResponse\<T\>
 
 This returns the **http response with your response model** from the underlying HttpClient call.
 
@@ -46,7 +48,9 @@ This returns the **http response with your response model** from the underlying 
 | status | number |
 | statusText | string |
 
-### IObservableError\<TError\> failure callback
+## Failure callbacks
+
+### IObservableError\<TError\>
 
 This returns **your error model** from the underlying HttpClient call.
 
@@ -54,7 +58,7 @@ This is the custom exception thrown by the API.
 
 It gets this from HttpClient's **error.error** returned from the API.
 
-### IObservableHttpError failure callback
+### IObservableHttpError
 
 This returns the **http error** from the underlying HttpClient call.
 
@@ -66,7 +70,7 @@ This returns the **http error** from the underlying HttpClient call.
 | status | number |
 | statusText | string |
 
-### IObservableHttpCustomError\<TError\> failure callback
+### IObservableHttpCustomError\<TError\>
 
 This returns the **http error with your error model** from the underlying HttpClient call.
 
