@@ -19,7 +19,7 @@ This library encapsulates the **.subscribe(x => ...)** part and exposes only the
 
 ## Strongly-typed callback types
 
-## Success callbacks
+## Success
 
 ### IObservable\<T\>
 
@@ -48,7 +48,7 @@ This returns the **http response with your response model** from the underlying 
 | status | number |
 | statusText | string |
 
-## Failure callbacks
+## Failure
 
 ### IObservableError\<TError\>
 
