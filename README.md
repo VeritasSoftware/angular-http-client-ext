@@ -127,7 +127,7 @@ export class RacingService {
     getRaceInfo(success: IObservable<RacingResponse>, failure?: IObservableError<APIException>) {
         let url = this.config.apiEndpoint;
 
-        this.client.get(url, ResponseType.IObservable, success, ErrorType.IObservableHttpError, failure);
+        this.client.get(url, ResponseType.IObservable, success, ErrorType.IObservableError, failure);
     }
 }
 ```
