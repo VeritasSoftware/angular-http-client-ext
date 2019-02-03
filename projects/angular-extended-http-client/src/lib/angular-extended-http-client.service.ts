@@ -10,22 +10,37 @@ export interface IObservableErrorBase {
     
 }
 
+/*
+Success callback - returns the model from the body of the API response
+*/
 export interface IObservable<T> extends IObservableBase {
     (subscribe: T) : void;    
 }
 
+/*
+Success callback - returns the http response and the model from the body of the API response
+*/
 export interface IObservableHttpResponse<T> extends IObservableBase {
   (subscribe: ISubscribe<T>) : void;    
 }
 
-export interface IObservableError extends IObservableErrorBase {
-    (error: ISubscribeError) : void;
-}
-
-export interface IObservableCustomError<TError> extends IObservableErrorBase {
+/* 
+Failure callback - returns the API thrown custom exception
+*/
+export interface IObservableError<TError> extends IObservableErrorBase {
     (error: TError) : void;
 }
 
+/* 
+Failure callback - returns the http error response through interface ISubscribeError
+*/
+export interface IObservableHttpError extends IObservableErrorBase {
+  (error: ISubscribeError) : void;
+}
+
+/* 
+Failure callback - returns the http error response and the API throw custom exception through interface ISubscribeCustomError<TError>
+*/
 export interface IObservableHttpCustomError<TError> extends IObservableErrorBase {
   (error: ISubscribeCustomError<TError>) : void;
 }
@@ -83,7 +98,7 @@ export class SubscribeCustomError<TError> implements ISubscribeCustomError<TErro
 
 export enum ErrorType {
   IObservableError,
-  IObservableCustomError,
+  IObservableHttpError,
   IObservableHttpCustomError
 }
 
@@ -101,9 +116,9 @@ export interface IHttpClientExtended {
                                 failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
 
     postUsingHttpResponse<TRequest, TResponse>(url: string, model: TRequest, 
-                                                        success?: IObservableHttpResponse<TResponse>, 
-                                                        failureType?: ErrorType,
-                                                        failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;                              
+                                                  success?: IObservableHttpResponse<TResponse>, 
+                                                  failureType?: ErrorType,
+                                                  failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;                              
 }
 
 @Injectable({
@@ -200,7 +215,11 @@ export class HttpClientExt implements IHttpClientExtended {
     switch(errorType)
     {
       case ErrorType.IObservableError:
-        let observableError = <IObservableError> failure;
+        let observableError = <IObservableError<TError>> failure;
+        observableError(error!.error);        
+        break;
+      case ErrorType.IObservableHttpError:
+        let observableHttpError = <IObservableHttpError> failure;
         let subscribe1: SubscribeError = new SubscribeError();
         subscribe1.ok = false;
         subscribe1.headers = error.headers;
@@ -208,11 +227,7 @@ export class HttpClientExt implements IHttpClientExtended {
         subscribe1.status = error.status;
         subscribe1.statusText = error.statusText;
 
-        observableError(subscribe1);
-        break;
-      case ErrorType.IObservableCustomError:
-        let observableCustomError = <IObservableCustomError<TError>> failure;
-        observableCustomError(error!.error);
+        observableHttpError(subscribe1);
         break;
       case ErrorType.IObservableHttpCustomError:
         let observableHttpCustomError = <IObservableHttpCustomError<TError>> failure;

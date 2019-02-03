@@ -35,7 +35,15 @@ This returns the **http response with your model** from the underlying HttpClien
 | status | number |
 | statusText | string |
 
-### IObservableError failure callback
+### IObservableError\<TError\> failure callback
+
+This returns **your error model** from the underlying HttpClient call.
+
+This is the custom exception thrown by the API.
+
+It gets this from HttpClient's **error.error** returned from the API.
+
+### IObservableHttpError failure callback
 
 This returns the **http error** from the underlying HttpClient call.
 
@@ -46,10 +54,6 @@ This returns the **http error** from the underlying HttpClient call.
 | headers | HttpHeaders |
 | status | number |
 | statusText | string |
-
-### IObservableCustomError\<TError\> failure callback
-
-This returns the your **error model** from the underlying HttpClient call.
 
 ### IObservableHttpCustomError\<TError\> failure callback
 
@@ -69,8 +73,14 @@ This returns the **http error with your error model** from the underlying HttpCl
 ### Your Models
 
 ```typescript
+//Normal response returned by the API.
 export class RacingResponse {
     result: string;
+}
+
+//Custom exception thrown by the API.
+export class ServiceException {
+    ClassName: string;
 }
 ```
 
@@ -83,7 +93,7 @@ Then, pass them on to the HttpClientExt's get method.
 ```typescript
 import { Injectable, Inject } from '@angular/core'
 import { RacingResponse } from '../models/models'
-import { HttpClientExt, IObservable, IObservableError, ErrorType } from '../../../dist/angular-extended-http-client';
+import { HttpClientExt, IObservable, IObservableError, ErrorType } from '../dist/angular-extended-http-client';
 .
 .
 
@@ -95,11 +105,11 @@ export class RacingService {
 
     }
 
-    //Declare params of type IObservable<T> and IObservableError.
+    //Declare params of type IObservable<T> and IObservableError<TError>.
     //These are the success and failure callbacks.
     //The success callback will return the response objects returned by the underlying HttpClient call.
     //The failure callback will return the error objects returned by the underlying HttpClient call.
-    getRaceInfo(success: IObservable<RacingResponse>, failure?: IObservableError) {
+    getRaceInfo(success: IObservable<RacingResponse>, failure?: IObservableError<ServiceException>) {
         let url = this.config.apiEndpoint;
 
         this.client.get(url, success, ErrorType.IObservableError, failure);
@@ -114,14 +124,14 @@ In your Component, your Service is injected and the **getRaceInfo** API called a
 ```typescript
   ngOnInit() {
     
-    this.service.getRaceInfo(response => this.result = response.result,
-                                error => this.errorMsg = error.message);
+    this.service.getRaceInfo(response => this.items = response.result,
+                                error => this.errorMsg = error.ClassName);
 
   }
 ```
 
 Both, **response** and **error** returned in the callbacks are strongly typed.
-Eg. **response** is type **RacingResponse**.
+Eg. **response** is type **RacingResponse** and **error** is of type **ServiceException**.
 
 You only with deal with Models in these strongly-typed callbacks.
 
@@ -155,9 +165,9 @@ So far, the **HttpClientExt** component implements below strongly-typed API.
                                 failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
 
     postUsingHttpResponse<TRequest, TResponse>(url: string, model: TRequest, 
-                                                    success?: IObservableHttpResponse<TResponse>, 
-                                                    failureType?: ErrorType,
-                                                    failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
+                                                  success?: IObservableHttpResponse<TResponse>, 
+                                                  failureType?: ErrorType,
+                                                  failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
 ```
 
 # Demo Angular 7 app
