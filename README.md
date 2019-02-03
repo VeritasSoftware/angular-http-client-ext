@@ -164,9 +164,10 @@ Also, you can still use the traditional route and return **Observable** from Ser
 
 ## Implementation details
 
-So far, the **HttpClientExt** component implements below strongly-typed API.
+The **HttpClientExt** component implements below strongly-typed interface.
 
 ```typescript
+export interface IHttpClientExtended {
   get<T>(url: string, 
           responseType: ResponseType,
           success?: IObservableBase, 
@@ -191,6 +192,7 @@ So far, the **HttpClientExt** component implements below strongly-typed API.
               success?: IObservableBase,
               failureType?: ErrorType, 
               failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>>;
+}
 ```
 
 # Demo Angular 7 app
