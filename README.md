@@ -90,7 +90,7 @@ This returns the **http error with your error model** from the underlying HttpCl
 ```typescript
 //Normal response returned by the API.
 export class RacingResponse {
-    result: string;
+    result: RacingItem[];
 }
 
 //Custom exception thrown by the API.
