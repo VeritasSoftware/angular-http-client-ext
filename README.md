@@ -162,7 +162,7 @@ Also, you can still use the traditional route and return **Observable** from Ser
     }
 ```
 
-### Implementation details
+## Implementation details
 
 So far, the **HttpClientExt** component implements below strongly-typed API.
 
