@@ -72,28 +72,25 @@ export declare class SubscribeCustomError<TError> implements ISubscribeCustomErr
     status: number;
     statusText: string;
 }
+export declare enum ResponseType {
+    IObservable = 0,
+    IObservableHttpResponse = 1,
+    IObservableHttpCustomResponse = 2
+}
 export declare enum ErrorType {
     IObservableError = 0,
     IObservableHttpError = 1,
     IObservableHttpCustomError = 2
 }
 export interface IHttpClientExtended {
-    get<T>(url: string, success?: IObservable<T>, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<T>>;
-    getUsingHttpResponse<T>(url: string, success?: IObservableHttpResponse, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<T>>;
-    getUsingHttpCustomResponse<T>(url: string, success?: IObservableHttpCustomResponse<T>, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<T>>;
-    post<TRequest, TResponse>(url: string, model: TRequest, success?: IObservable<TResponse>, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<TResponse>>;
-    postUsingHttpResponse<TRequest, TResponse>(url: string, model: TRequest, success?: IObservableHttpResponse, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<TResponse>>;
-    postUsingHttpCustomResponse<TRequest, TResponse>(url: string, model: TRequest, success?: IObservableHttpCustomResponse<TResponse>, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<TResponse>>;
+    get<T>(url: string, responseType: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<T>>;
+    post<TRequest, TResponse>(url: string, model: TRequest, responseType: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<TResponse>>;
 }
 export declare class HttpClientExt implements IHttpClientExtended {
     private client;
     constructor(client: HttpClient);
-    get<T>(url: string, success?: IObservable<T>, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<T>>;
-    getUsingHttpResponse<T>(url: string, success?: IObservableHttpResponse, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<T>>;
-    getUsingHttpCustomResponse<T>(url: string, success?: IObservableHttpCustomResponse<T>, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<T>>;
-    post<TRequest, TResponse>(url: string, model: TRequest, success?: IObservable<TResponse>, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<TResponse>>;
-    postUsingHttpResponse<TRequest, TResponse>(url: string, model: TRequest, success?: IObservableHttpResponse, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<TResponse>>;
-    postUsingHttpCustomResponse<TRequest, TResponse>(url: string, model: TRequest, success?: IObservableHttpCustomResponse<TResponse>, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<TResponse>>;
+    get<T>(url: string, responseType: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<T>>;
+    post<TRequest, TResponse>(url: string, model: TRequest, responseType: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<TResponse>>;
     private processSuccessResponse;
     private processSuccessHttpResponse;
     private processSuccessHttpCustomResponse;

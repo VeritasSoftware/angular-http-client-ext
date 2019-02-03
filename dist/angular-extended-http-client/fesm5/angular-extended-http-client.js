@@ -38,6 +38,15 @@ SubscribeCustomError = /** @class */ (function () {
     return SubscribeCustomError;
 }());
 /** @enum {number} */
+var ResponseType = {
+    IObservable: 0,
+    IObservableHttpResponse: 1,
+    IObservableHttpCustomResponse: 2,
+};
+ResponseType[ResponseType.IObservable] = 'IObservable';
+ResponseType[ResponseType.IObservableHttpResponse] = 'IObservableHttpResponse';
+ResponseType[ResponseType.IObservableHttpCustomResponse] = 'IObservableHttpCustomResponse';
+/** @enum {number} */
 var ErrorType = {
     IObservableError: 0,
     IObservableHttpError: 1,
@@ -53,6 +62,7 @@ var HttpClientExt = /** @class */ (function () {
     /**
      * @template T
      * @param {?} url
+     * @param {?} responseType
      * @param {?=} success
      * @param {?=} failureType
      * @param {?=} failure
@@ -62,75 +72,20 @@ var HttpClientExt = /** @class */ (function () {
     HttpClientExt.prototype.get = /**
      * @template T
      * @param {?} url
+     * @param {?} responseType
      * @param {?=} success
      * @param {?=} failureType
      * @param {?=} failure
      * @param {?=} options
      * @return {?}
      */
-    function (url, success, failureType, failure, options) {
+    function (url, responseType, success, failureType, failure, options) {
         var _this = this;
         /** @type {?} */
         var httpResponse = this.client.get(url, options != null ? { headers: options.headers, observe: 'response' } : { observe: 'response' });
         if (success != null) {
             httpResponse
-                .subscribe(function (x) { return _this.processSuccessResponse(x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
-        }
-        return httpResponse;
-    };
-    /**
-     * @template T
-     * @param {?} url
-     * @param {?=} success
-     * @param {?=} failureType
-     * @param {?=} failure
-     * @param {?=} options
-     * @return {?}
-     */
-    HttpClientExt.prototype.getUsingHttpResponse = /**
-     * @template T
-     * @param {?} url
-     * @param {?=} success
-     * @param {?=} failureType
-     * @param {?=} failure
-     * @param {?=} options
-     * @return {?}
-     */
-    function (url, success, failureType, failure, options) {
-        var _this = this;
-        /** @type {?} */
-        var httpResponse = this.client.get(url, options != null ? { headers: options.headers, observe: 'response' } : { observe: 'response' });
-        if (success != null) {
-            httpResponse
-                .subscribe(function (x) { return _this.processSuccessHttpResponse(x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
-        }
-        return httpResponse;
-    };
-    /**
-     * @template T
-     * @param {?} url
-     * @param {?=} success
-     * @param {?=} failureType
-     * @param {?=} failure
-     * @param {?=} options
-     * @return {?}
-     */
-    HttpClientExt.prototype.getUsingHttpCustomResponse = /**
-     * @template T
-     * @param {?} url
-     * @param {?=} success
-     * @param {?=} failureType
-     * @param {?=} failure
-     * @param {?=} options
-     * @return {?}
-     */
-    function (url, success, failureType, failure, options) {
-        var _this = this;
-        /** @type {?} */
-        var httpResponse = this.client.get(url, options != null ? { headers: options.headers, observe: 'response' } : { observe: 'response' });
-        if (success != null) {
-            httpResponse
-                .subscribe(function (x) { return _this.processSuccessHttpCustomResponse(x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
+                .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
         }
         return httpResponse;
     };
@@ -138,6 +93,7 @@ var HttpClientExt = /** @class */ (function () {
      * @template TRequest, TResponse
      * @param {?} url
      * @param {?} model
+     * @param {?} responseType
      * @param {?=} success
      * @param {?=} failureType
      * @param {?=} failure
@@ -148,13 +104,14 @@ var HttpClientExt = /** @class */ (function () {
      * @template TRequest, TResponse
      * @param {?} url
      * @param {?} model
+     * @param {?} responseType
      * @param {?=} success
      * @param {?=} failureType
      * @param {?=} failure
      * @param {?=} options
      * @return {?}
      */
-    function (url, model, success, failureType, failure, options) {
+    function (url, model, responseType, success, failureType, failure, options) {
         var _this = this;
         /** @type {?} */
         var httpResponse = this.client.post(url, model, options != null ?
@@ -162,77 +119,14 @@ var HttpClientExt = /** @class */ (function () {
             : { observe: 'response' });
         if (success != null) {
             httpResponse
-                .subscribe(function (x) { return _this.processSuccessResponse(x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
-        }
-        return httpResponse;
-    };
-    /**
-     * @template TRequest, TResponse
-     * @param {?} url
-     * @param {?} model
-     * @param {?=} success
-     * @param {?=} failureType
-     * @param {?=} failure
-     * @param {?=} options
-     * @return {?}
-     */
-    HttpClientExt.prototype.postUsingHttpResponse = /**
-     * @template TRequest, TResponse
-     * @param {?} url
-     * @param {?} model
-     * @param {?=} success
-     * @param {?=} failureType
-     * @param {?=} failure
-     * @param {?=} options
-     * @return {?}
-     */
-    function (url, model, success, failureType, failure, options) {
-        var _this = this;
-        /** @type {?} */
-        var httpResponse = this.client.post(url, model, options != null ?
-            { headers: options.headers, observe: 'response' }
-            : { observe: 'response' });
-        if (success != null) {
-            httpResponse
-                .subscribe(function (x) { return _this.processSuccessHttpResponse(x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
-        }
-        return httpResponse;
-    };
-    /**
-     * @template TRequest, TResponse
-     * @param {?} url
-     * @param {?} model
-     * @param {?=} success
-     * @param {?=} failureType
-     * @param {?=} failure
-     * @param {?=} options
-     * @return {?}
-     */
-    HttpClientExt.prototype.postUsingHttpCustomResponse = /**
-     * @template TRequest, TResponse
-     * @param {?} url
-     * @param {?} model
-     * @param {?=} success
-     * @param {?=} failureType
-     * @param {?=} failure
-     * @param {?=} options
-     * @return {?}
-     */
-    function (url, model, success, failureType, failure, options) {
-        var _this = this;
-        /** @type {?} */
-        var httpResponse = this.client.post(url, model, options != null ?
-            { headers: options.headers, observe: 'response' }
-            : { observe: 'response' });
-        if (success != null) {
-            httpResponse
-                .subscribe(function (x) { return _this.processSuccessHttpCustomResponse(x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
+                .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
         }
         return httpResponse;
     };
     /**
      * @private
      * @template TResponse
+     * @param {?} responseType
      * @param {?} response
      * @param {?} success
      * @return {?}
@@ -240,14 +134,42 @@ var HttpClientExt = /** @class */ (function () {
     HttpClientExt.prototype.processSuccessResponse = /**
      * @private
      * @template TResponse
+     * @param {?} responseType
      * @param {?} response
      * @param {?} success
      * @return {?}
      */
-    function (response, success) {
-        if (success != null) {
-            if (response.ok) {
-                success((/** @type {?} */ (response)).body);
+    function (responseType, response, success) {
+        if (response.ok) {
+            switch (responseType) {
+                case ResponseType.IObservable:
+                    /** @type {?} */
+                    var iObservable = (/** @type {?} */ (success));
+                    iObservable((/** @type {?} */ (response)).body);
+                    break;
+                case ResponseType.IObservableHttpResponse:
+                    /** @type {?} */
+                    var iObservableHttpResponse = (/** @type {?} */ (success));
+                    /** @type {?} */
+                    var subscribe1 = new SubscribeBase();
+                    subscribe1.ok = response.ok;
+                    subscribe1.status = response.status;
+                    subscribe1.statusText = response.statusText;
+                    subscribe1.headers = response.headers;
+                    iObservableHttpResponse(subscribe1);
+                    break;
+                case ResponseType.IObservableHttpCustomResponse:
+                    /** @type {?} */
+                    var iObservableHttpCustomResponse = (/** @type {?} */ (success));
+                    /** @type {?} */
+                    var subscribe2 = new Subscribe();
+                    subscribe2.ok = response.ok;
+                    subscribe2.status = response.status;
+                    subscribe2.statusText = response.statusText;
+                    subscribe2.body = response.body;
+                    subscribe2.headers = response.headers;
+                    iObservableHttpCustomResponse(subscribe2);
+                    break;
             }
         }
     };
@@ -267,15 +189,7 @@ var HttpClientExt = /** @class */ (function () {
      */
     function (response, success) {
         if (success != null) {
-            if (response.ok) {
-                /** @type {?} */
-                var subscribe = new SubscribeBase();
-                subscribe.ok = response.ok;
-                subscribe.status = response.status;
-                subscribe.statusText = response.statusText;
-                subscribe.headers = response.headers;
-                success(subscribe);
-            }
+            if (response.ok) ;
         }
     };
     /**
@@ -399,6 +313,6 @@ var HttpClientExtModule = /** @class */ (function () {
  * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { SubscribeBase, Subscribe, SubscribeError, SubscribeCustomError, ErrorType, HttpClientExt, HttpClientExtModule };
+export { SubscribeBase, Subscribe, SubscribeError, SubscribeCustomError, ResponseType, ErrorType, HttpClientExt, HttpClientExtModule };
 
 //# sourceMappingURL=angular-extended-http-client.js.map

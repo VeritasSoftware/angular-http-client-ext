@@ -110,6 +110,12 @@ export class SubscribeCustomError<TError> implements ISubscribeCustomError<TErro
   statusText: string;
 }
 
+export enum ResponseType {
+  IObservable,
+  IObservableHttpResponse,
+  IObservableHttpCustomResponse
+}
+
 export enum ErrorType {
   IObservableError,
   IObservableHttpError,
@@ -117,32 +123,17 @@ export enum ErrorType {
 }
 
 export interface IHttpClientExtended {
-    get<T>(url: string, success?: IObservable<T>, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>>;
-
-    getUsingHttpResponse<T>(url: string, 
-                              success?: IObservableHttpResponse, 
-                              failureType?: ErrorType, 
-                              failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>>;
-
-    getUsingHttpCustomResponse<T>(url: string, 
-                                    success?: IObservableHttpCustomResponse<T>, 
-                                    failureType?: ErrorType, 
-                                    failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>>;
+    get<T>(url: string, 
+            responseType: ResponseType,
+            success?: IObservableBase, 
+            failureType?: ErrorType, 
+            failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>>;
 
     post<TRequest, TResponse>(url: string, model: TRequest, 
-                                success?: IObservable<TResponse>, 
+                                responseType: ResponseType,
+                                success?: IObservableBase, 
                                 failureType?: ErrorType,
                                 failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
-
-    postUsingHttpResponse<TRequest, TResponse>(url: string, model: TRequest, 
-                                                  success?: IObservableHttpResponse, 
-                                                  failureType?: ErrorType,
-                                                  failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
-                                                  
-    postUsingHttpCustomResponse<TRequest, TResponse>(url: string, model: TRequest, 
-                                                      success?: IObservableHttpCustomResponse<TResponse>, 
-                                                      failureType?: ErrorType,
-                                                      failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;                                                  
 }
 
 @Injectable({
@@ -154,47 +145,25 @@ export class HttpClientExt implements IHttpClientExtended {
   {
   }
   
-  get<T>(url: string, success?: IObservable<T>, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>> {                
+  get<T>(url: string, 
+            responseType: ResponseType,
+            success?: IObservableBase, 
+            failureType?: ErrorType, 
+            failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>> {                
     let httpResponse = this.client.get<T>(url, options != null ? { headers: options.headers, observe: 'response' } : {observe: 'response'});
 
     if (success != null) {
         httpResponse
-            .subscribe(x => this.processSuccessResponse(x,success), error => this.processErrorResponse(error, failure, failureType));
+            .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
     }        
 
     return httpResponse;                   
   }
 
-  getUsingHttpResponse<T>(url: string, 
-                            success?: IObservableHttpResponse, 
-                            failureType?: ErrorType,
-                            failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>> {                
-    let httpResponse = this.client.get<T>(url, options != null ? { headers: options.headers, observe: 'response' } : {observe: 'response'});
 
-    if (success != null) {
-        httpResponse
-            .subscribe(x => this.processSuccessHttpResponse(x,success), error => this.processErrorResponse(error, failure, failureType));
-    }        
-
-    return httpResponse;                   
-  }
-
-  getUsingHttpCustomResponse<T>(url: string, 
-                            success?: IObservableHttpCustomResponse<T>, 
-                            failureType?: ErrorType,
-                            failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>> {                
-    let httpResponse = this.client.get<T>(url, options != null ? { headers: options.headers, observe: 'response' } : {observe: 'response'});
-
-    if (success != null) {
-        httpResponse
-            .subscribe(x => this.processSuccessHttpCustomResponse(x,success), error => this.processErrorResponse(error, failure, failureType));
-    }        
-
-    return httpResponse;                   
-  }
-
-  post<TRequest, TResponse>(url: string, model: TRequest, 
-                              success?: IObservable<TResponse>,
+  post<TRequest, TResponse>(url: string, model: TRequest,
+                              responseType: ResponseType, 
+                              success?: IObservableBase,
                               failureType?: ErrorType, 
                               failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>> {                
     let httpResponse = this.client.post<TResponse>(url, model, options != null ? 
@@ -202,62 +171,50 @@ export class HttpClientExt implements IHttpClientExtended {
                                                                 : {observe: 'response'});
     if (success != null) {
         httpResponse
-            .subscribe(x => this.processSuccessResponse(x,success), error => this.processErrorResponse(error, failure, failureType));
+            .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
     }        
 
     return httpResponse;                   
   }
 
-  postUsingHttpResponse<TRequest, TResponse>(url: string, model: TRequest, 
-                                                      success?: IObservableHttpResponse,
-                                                      failureType?: ErrorType, 
-                                                      failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>> {                
-    let httpResponse = this.client.post<TResponse>(url, model, options != null ? 
-                                                                { headers: options.headers, observe: 'response' } 
-                                                                : {observe: 'response'});
-    if (success != null) {
-        httpResponse
-            .subscribe(x => this.processSuccessHttpResponse(x,success), error => this.processErrorResponse(error, failure, failureType));
-    }        
+  private processSuccessResponse<TResponse>(responseType: ResponseType, response: HttpResponse<TResponse>, success: IObservableBase) : void {
 
-    return httpResponse;                   
-  }
-
-  postUsingHttpCustomResponse<TRequest, TResponse>(url: string, model: TRequest, 
-                                                      success?: IObservableHttpCustomResponse<TResponse>,
-                                                      failureType?: ErrorType, 
-                                                      failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>> {                
-    let httpResponse = this.client.post<TResponse>(url, model, options != null ? 
-                                                                { headers: options.headers, observe: 'response' } 
-                                                                : {observe: 'response'});
-    if (success != null) {
-        httpResponse
-            .subscribe(x => this.processSuccessHttpCustomResponse(x,success), error => this.processErrorResponse(error, failure, failureType));
-    }        
-
-    return httpResponse;                   
-  }  
-
-  private processSuccessResponse<TResponse>(response: HttpResponse<TResponse>, success: IObservable<TResponse>) : void {
-
-    if (success != null) {
-      if (response.ok) {
-        success(response!.body);
-      }                        
-    }      
+    if (response.ok) {
+      switch(responseType) {        
+        case ResponseType.IObservable:
+          let iObservable = <IObservable<TResponse>>success;
+          iObservable(response!.body);
+          break;
+        case ResponseType.IObservableHttpResponse:
+          let iObservableHttpResponse = <IObservableHttpResponse>success;
+          let subscribe1: ISubscribeBase = new SubscribeBase();
+          subscribe1.ok = response.ok;
+          subscribe1.status = response.status;
+          subscribe1.statusText = response.statusText;
+          subscribe1.headers = response.headers;
+                  
+          iObservableHttpResponse(subscribe1);                            
+          break;
+        case ResponseType.IObservableHttpCustomResponse:
+          let iObservableHttpCustomResponse = <IObservableHttpCustomResponse<TResponse>>success;
+          let subscribe2: ISubscribe<TResponse> = new Subscribe<TResponse>();
+          subscribe2.ok = response.ok;
+          subscribe2.status = response.status;
+          subscribe2.statusText = response.statusText;
+          subscribe2.body = response.body;                        
+          subscribe2.headers = response.headers;
+                  
+          iObservableHttpCustomResponse(subscribe2);                            
+          break;
+      }
+    }    
   }
 
   private processSuccessHttpResponse<TResponse>(response: HttpResponse<TResponse>, success: IObservableHttpResponse) : void {
 
     if (success != null) {
       if (response.ok) {
-        let subscribe: ISubscribeBase = new SubscribeBase();
-        subscribe.ok = response.ok;
-        subscribe.status = response.status;
-        subscribe.statusText = response.statusText;
-        subscribe.headers = response.headers;
-                
-        success(subscribe);                            
+        
       }                        
     }      
   }
