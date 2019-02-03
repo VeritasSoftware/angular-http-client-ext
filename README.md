@@ -107,7 +107,7 @@ Then, pass them on to the HttpClientExt's get method.
 
 ```typescript
 import { Injectable, Inject } from '@angular/core'
-import { RacingResponse } from '../models/models'
+import { RacingResponse, APIException } from '../models/models'
 import { HttpClientExt, IObservable, IObservableError, ResponseType, ErrorType } from '../dist/angular-extended-http-client';
 .
 .
