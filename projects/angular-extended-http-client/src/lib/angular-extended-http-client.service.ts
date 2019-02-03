@@ -123,11 +123,11 @@ export enum ErrorType {
 }
 
 export interface IHttpClientExtended {
-  get<T>(url: string, 
-          responseType: ResponseType,
-          success?: IObservableBase, 
-          failureType?: ErrorType, 
-          failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>>;
+  get<TResponse>(url: string, 
+                  responseType: ResponseType,
+                  success?: IObservableBase, 
+                  failureType?: ErrorType, 
+                  failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
 
   post<TRequest, TResponse>(url: string, model: TRequest, 
                               responseType: ResponseType,
@@ -142,11 +142,11 @@ export interface IHttpClientExtended {
             failureType?: ErrorType, 
             failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>>;
 
-  delete<T>(url: string, model: T,
-              responseType: ResponseType, 
-              success?: IObservableBase,
-              failureType?: ErrorType, 
-              failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>>;
+  delete<TResponse>(url: string,
+                      responseType: ResponseType, 
+                      success?: IObservableBase,
+                      failureType?: ErrorType, 
+                      failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
 }
 
 @Injectable({
@@ -158,12 +158,12 @@ export class HttpClientExt implements IHttpClientExtended {
   {
   }
   
-  get<T>(url: string, 
-            responseType: ResponseType,
-            success?: IObservableBase, 
-            failureType?: ErrorType, 
-            failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>> {                
-    let httpResponse = this.client.get<T>(url, options != null ? { headers: options.headers, observe: 'response' } : {observe: 'response'});
+  get<TResponse>(url: string, 
+                  responseType: ResponseType,
+                  success?: IObservableBase, 
+                  failureType?: ErrorType, 
+                  failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>> {                
+    let httpResponse = this.client.get<TResponse>(url, options != null ? { headers: options.headers, observe: 'response' } : {observe: 'response'});
 
     if (success != null) {
         httpResponse
@@ -206,12 +206,12 @@ export class HttpClientExt implements IHttpClientExtended {
     return httpResponse;                   
   }
   
-  delete<T>(url: string, model: T,
-            responseType: ResponseType, 
-            success?: IObservableBase,
-            failureType?: ErrorType, 
-            failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>> {                
-    let httpResponse = this.client.delete<T>(url, options != null ? 
+  delete<TResponse>(url: string,
+                      responseType: ResponseType, 
+                      success?: IObservableBase,
+                      failureType?: ErrorType, 
+                      failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>> {                
+    let httpResponse = this.client.delete<TResponse>(url, options != null ? 
                                                   { headers: options.headers, observe: 'response' } 
                                                   : {observe: 'response'});
     if (success != null) {
