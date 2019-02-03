@@ -95,7 +95,7 @@ export class RacingResponse {
 
 //Custom exception thrown by the API.
 export class APIException {
-    ClassName: string;
+    className: string;
 }
 ```
 
@@ -140,7 +140,7 @@ In your Component, your Service is injected and the **getRaceInfo** API called a
   ngOnInit() {
     
     this.service.getRaceInfo(response => this.items = response.result,
-                                error => this.errorMsg = error.ClassName);
+                                error => this.errorMsg = error.className);
 
   }
 ```
