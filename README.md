@@ -167,6 +167,18 @@ Also, you can still use the traditional route and return **Observable** from Ser
 The **HttpClientExt** component implements below strongly-typed interface.
 
 ```typescript
+export enum ResponseType {
+  IObservable,
+  IObservableHttpResponse,
+  IObservableHttpCustomResponse
+}
+
+export enum ErrorType {
+  IObservableError,
+  IObservableHttpError,
+  IObservableHttpCustomError
+}
+
 export interface IHttpClientExtended {
   get<TResponse>(url: string, 
                   responseType: ResponseType,
