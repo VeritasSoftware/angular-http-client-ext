@@ -90,7 +90,7 @@ export class RacingResponse {
 }
 
 //Custom exception thrown by the API.
-export class ServiceException {
+export class APIException {
     ClassName: string;
 }
 ```
@@ -120,7 +120,7 @@ export class RacingService {
     //These are the success and failure callbacks.
     //The success callback will return the response objects returned by the underlying HttpClient call.
     //The failure callback will return the error objects returned by the underlying HttpClient call.
-    getRaceInfo(success: IObservable<RacingResponse>, failure?: IObservableError<ServiceException>) {
+    getRaceInfo(success: IObservable<RacingResponse>, failure?: IObservableError<APIException>) {
         let url = this.config.apiEndpoint;
 
         this.client.get(url, success, ErrorType.IObservableError, failure);
@@ -142,7 +142,7 @@ In your Component, your Service is injected and the **getRaceInfo** API called a
 ```
 
 Both, **response** and **error** returned in the callbacks are strongly typed.
-Eg. **response** is type **RacingResponse** and **error** is of type **ServiceException**.
+Eg. **response** is type **RacingResponse** and **error** is of type **APIException**.
 
 You only with deal with Models in these strongly-typed callbacks.
 
