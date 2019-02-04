@@ -45,9 +45,9 @@ class HttpClientExt {
         this.client = client;
     }
     /**
-     * @template T
+     * @template TResponse
      * @param {?} url
-     * @param {?} responseType
+     * @param {?=} responseType
      * @param {?=} success
      * @param {?=} failureType
      * @param {?=} failure
@@ -61,13 +61,13 @@ class HttpClientExt {
             httpResponse
                 .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
         }
-        return httpResponse;
+        return httpResponse.pipe();
     }
     /**
      * @template TRequest, TResponse
      * @param {?} url
      * @param {?} model
-     * @param {?} responseType
+     * @param {?=} responseType
      * @param {?=} success
      * @param {?=} failureType
      * @param {?=} failure
@@ -89,7 +89,7 @@ class HttpClientExt {
      * @template T
      * @param {?} url
      * @param {?} model
-     * @param {?} responseType
+     * @param {?=} responseType
      * @param {?=} success
      * @param {?=} failureType
      * @param {?=} failure
@@ -108,17 +108,16 @@ class HttpClientExt {
         return httpResponse;
     }
     /**
-     * @template T
+     * @template TResponse
      * @param {?} url
-     * @param {?} model
-     * @param {?} responseType
+     * @param {?=} responseType
      * @param {?=} success
      * @param {?=} failureType
      * @param {?=} failure
      * @param {?=} options
      * @return {?}
      */
-    delete(url, model, responseType, success, failureType, failure, options) {
+    delete(url, responseType, success, failureType, failure, options) {
         /** @type {?} */
         let httpResponse = this.client.delete(url, options != null ?
             { headers: options.headers, observe: 'response' }

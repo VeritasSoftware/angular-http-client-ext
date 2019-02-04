@@ -60,9 +60,9 @@ var HttpClientExt = /** @class */ (function () {
         this.client = client;
     }
     /**
-     * @template T
+     * @template TResponse
      * @param {?} url
-     * @param {?} responseType
+     * @param {?=} responseType
      * @param {?=} success
      * @param {?=} failureType
      * @param {?=} failure
@@ -70,9 +70,9 @@ var HttpClientExt = /** @class */ (function () {
      * @return {?}
      */
     HttpClientExt.prototype.get = /**
-     * @template T
+     * @template TResponse
      * @param {?} url
-     * @param {?} responseType
+     * @param {?=} responseType
      * @param {?=} success
      * @param {?=} failureType
      * @param {?=} failure
@@ -87,13 +87,13 @@ var HttpClientExt = /** @class */ (function () {
             httpResponse
                 .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
         }
-        return httpResponse;
+        return httpResponse.pipe();
     };
     /**
      * @template TRequest, TResponse
      * @param {?} url
      * @param {?} model
-     * @param {?} responseType
+     * @param {?=} responseType
      * @param {?=} success
      * @param {?=} failureType
      * @param {?=} failure
@@ -104,7 +104,7 @@ var HttpClientExt = /** @class */ (function () {
      * @template TRequest, TResponse
      * @param {?} url
      * @param {?} model
-     * @param {?} responseType
+     * @param {?=} responseType
      * @param {?=} success
      * @param {?=} failureType
      * @param {?=} failure
@@ -127,7 +127,7 @@ var HttpClientExt = /** @class */ (function () {
      * @template T
      * @param {?} url
      * @param {?} model
-     * @param {?} responseType
+     * @param {?=} responseType
      * @param {?=} success
      * @param {?=} failureType
      * @param {?=} failure
@@ -138,7 +138,7 @@ var HttpClientExt = /** @class */ (function () {
      * @template T
      * @param {?} url
      * @param {?} model
-     * @param {?} responseType
+     * @param {?=} responseType
      * @param {?=} success
      * @param {?=} failureType
      * @param {?=} failure
@@ -158,10 +158,9 @@ var HttpClientExt = /** @class */ (function () {
         return httpResponse;
     };
     /**
-     * @template T
+     * @template TResponse
      * @param {?} url
-     * @param {?} model
-     * @param {?} responseType
+     * @param {?=} responseType
      * @param {?=} success
      * @param {?=} failureType
      * @param {?=} failure
@@ -169,17 +168,16 @@ var HttpClientExt = /** @class */ (function () {
      * @return {?}
      */
     HttpClientExt.prototype.delete = /**
-     * @template T
+     * @template TResponse
      * @param {?} url
-     * @param {?} model
-     * @param {?} responseType
+     * @param {?=} responseType
      * @param {?=} success
      * @param {?=} failureType
      * @param {?=} failure
      * @param {?=} options
      * @return {?}
      */
-    function (url, model, responseType, success, failureType, failure, options) {
+    function (url, responseType, success, failureType, failure, options) {
         var _this = this;
         /** @type {?} */
         var httpResponse = this.client.delete(url, options != null ?
