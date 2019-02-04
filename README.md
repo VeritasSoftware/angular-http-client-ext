@@ -197,26 +197,26 @@ export enum ErrorType {
 
 export interface IHttpClientExtended {
   get<TResponse>(url: string, 
-                  responseType: ResponseType,
+                  responseType?: ResponseType,
                   success?: IObservableBase, 
                   failureType?: ErrorType, 
                   failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
 
   post<TRequest, TResponse>(url: string, model: TRequest, 
-                              responseType: ResponseType,
+                              responseType?: ResponseType,
                               success?: IObservableBase, 
                               failureType?: ErrorType,
                               failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
 
 
   put<T>(url: string, model: T,
-            responseType: ResponseType, 
+            responseType?: ResponseType, 
             success?: IObservableBase,
             failureType?: ErrorType, 
             failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>>;
 
   delete<TResponse>(url: string,
-                      responseType: ResponseType, 
+                      responseType?: ResponseType, 
                       success?: IObservableBase,
                       failureType?: ErrorType, 
                       failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
