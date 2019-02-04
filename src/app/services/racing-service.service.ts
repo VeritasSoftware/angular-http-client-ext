@@ -20,6 +20,12 @@ export class RacingService {
         this.client.get(url, ResponseType.IObservable, success, ErrorType.IObservableHttpError, failure, options);
     }
 
+    getRaceInfoTraditional() : Observable<HttpResponse<RacingResponse>> {
+        let url = this.config.apiEndpoint;
+
+        return this.client.get(url)
+    }    
+
     private addRequestHeaderOptions() : any {
         var httpHeaders = new HttpHeaders();
         httpHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NDc2OTg1MzgsIm5iZiI6MTU0NzY5NDIxOCwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6InN0cmluZyIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6InN0cmluZyIsIkRPQiI6IjEvMTcvMjAxOSIsImlzcyI6InlvdXIgYXBwIiwiYXVkIjoidGhlIGNsaWVudCBvZiB5b3VyIGFwcCJ9.qxFdcdAVKG2Idcsk_tftnkkyB2vsaQx5py1KSMy3fT4");
