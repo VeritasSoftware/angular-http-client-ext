@@ -11,6 +11,8 @@ The Angular component is an extended HttpClient. It uses HttpClient under the co
 
 When using Observable with HttpClient, you have to repeat **.subscribe(x => ...)** all over the rest of your code.
 
+This is because **Observable\<HttpResponse\<T\>\>** is tied to **HttpResponse**.
+
 Due to this, there is **tight coupling** between the **http layer** and the **rest of your code**.
 
 This library encapsulates the **.subscribe(x => ...)** part and exposes only the data and error through your Models.
