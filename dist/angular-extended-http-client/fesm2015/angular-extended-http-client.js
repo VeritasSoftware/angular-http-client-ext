@@ -172,39 +172,6 @@ class HttpClientExt {
     }
     /**
      * @private
-     * @template TResponse
-     * @param {?} response
-     * @param {?} success
-     * @return {?}
-     */
-    processSuccessHttpResponse(response, success) {
-        if (success != null) {
-            if (response.ok) ;
-        }
-    }
-    /**
-     * @private
-     * @template TResponse
-     * @param {?} response
-     * @param {?} success
-     * @return {?}
-     */
-    processSuccessHttpCustomResponse(response, success) {
-        if (success != null) {
-            if (response.ok) {
-                /** @type {?} */
-                let subscribe = new Subscribe();
-                subscribe.ok = response.ok;
-                subscribe.status = response.status;
-                subscribe.statusText = response.statusText;
-                subscribe.body = response.body;
-                subscribe.headers = response.headers;
-                success(subscribe);
-            }
-        }
-    }
-    /**
-     * @private
      * @template TError
      * @param {?} error
      * @param {?} failure

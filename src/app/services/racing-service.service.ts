@@ -1,7 +1,8 @@
 import { Injectable, Inject } from '@angular/core'
 import { RacingResponse, APIException } from '../models/models'
 import { APP_CONFIG, AppConfig } from '../app-config.module';
-import { HttpClientExt, IObservable, IObservableError, IObservableHttpError, ResponseType, ErrorType } from '../../../dist/angular-extended-http-client';
+import { HttpClientExt, IObservable, IObservableError, IObservableHttpError, ResponseType, ErrorType } from 'angular-extended-http-client';
+//import { HttpClientExt, IObservable, IObservableError, IObservableHttpError, ResponseType, ErrorType } from '../../../dist/angular-extended-http-client';
 //import { HttpClientExt, IObservable, IObservableError, IObservableHttpError, ResponseType, ErrorType } from '../../../projects/angular-extended-http-client/src/lib/angular-extended-http-client.service';
 import { Observable } from 'rxjs';
 import { HttpResponse, HttpHeaders } from '@angular/common/http';

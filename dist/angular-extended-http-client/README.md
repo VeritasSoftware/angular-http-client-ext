@@ -3,8 +3,6 @@
 ## The library allows using Angular's HttpClient with strongly-typed callbacks.
 ### HttpClientExt
 
-[**NPM package**](https://www.npmjs.com/package/angular-extended-http-client)
-
 The Angular component is an extended HttpClient. It uses HttpClient under the covers.
 
 **HttpClientExt** exposes HttpClient data via strongly-typed callbacks.
@@ -123,7 +121,7 @@ import { Injectable, Inject } from '@angular/core'
 import { HttpHeaders } from '@angular/common/http';
 
 import { RacingResponse, APIException } from '../models/models'
-import { HttpClientExt, IObservable, IObservableError, ResponseType, ErrorType } from '../dist/angular-extended-http-client';
+import { HttpClientExt, IObservable, IObservableError, ResponseType, ErrorType } from 'angular-extended-http-client';
 .
 .
 
@@ -234,23 +232,3 @@ export interface IHttpClientExtended {
                       failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
 }
 ```
-
-# Demo Angular 7 app
-## App demoes the library.
-
-All http calls in the demo app use the library.
-
-## Screenshot
-
-![Demo UI app](https://github.com/VeritasSoftware/angular-http-client-ext/blob/master/DemoUI.jpg)
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.2.
-
-### To run the Angular app
-
-*   Download/clone the source code.
-*   Open the source code folder in Visual Studio Code.
-*   Run below Powershell commands in Integrated Terminal (from View menu)
-    *   npm install
-    *   ng serve
-*   Navigate to http://localhost:4200 in the browser.

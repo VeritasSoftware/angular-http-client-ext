@@ -96,7 +96,5 @@ export declare class HttpClientExt implements IHttpClientExtended {
     put<T>(url: string, model: T, responseType?: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<T>>;
     delete<TResponse>(url: string, responseType?: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<TResponse>>;
     private processSuccessResponse;
-    private processSuccessHttpResponse;
-    private processSuccessHttpCustomResponse;
     private processErrorResponse;
 }

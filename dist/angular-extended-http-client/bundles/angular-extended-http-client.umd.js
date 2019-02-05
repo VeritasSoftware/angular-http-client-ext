@@ -242,53 +242,6 @@
             };
         /**
          * @private
-         * @template TResponse
-         * @param {?} response
-         * @param {?} success
-         * @return {?}
-         */
-        HttpClientExt.prototype.processSuccessHttpResponse = /**
-         * @private
-         * @template TResponse
-         * @param {?} response
-         * @param {?} success
-         * @return {?}
-         */
-            function (response, success) {
-                if (success != null) {
-                    if (response.ok) ;
-                }
-            };
-        /**
-         * @private
-         * @template TResponse
-         * @param {?} response
-         * @param {?} success
-         * @return {?}
-         */
-        HttpClientExt.prototype.processSuccessHttpCustomResponse = /**
-         * @private
-         * @template TResponse
-         * @param {?} response
-         * @param {?} success
-         * @return {?}
-         */
-            function (response, success) {
-                if (success != null) {
-                    if (response.ok) {
-                        /** @type {?} */
-                        var subscribe = new Subscribe();
-                        subscribe.ok = response.ok;
-                        subscribe.status = response.status;
-                        subscribe.statusText = response.statusText;
-                        subscribe.body = response.body;
-                        subscribe.headers = response.headers;
-                        success(subscribe);
-                    }
-                }
-            };
-        /**
-         * @private
          * @template TError
          * @param {?} error
          * @param {?} failure
