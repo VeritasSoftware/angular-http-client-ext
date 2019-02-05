@@ -255,31 +255,6 @@ export class HttpClientExt implements IHttpClientExtended {
     }    
   }
 
-  private processSuccessHttpResponse<TResponse>(response: HttpResponse<TResponse>, success: IObservableHttpResponse) : void {
-
-    if (success != null) {
-      if (response.ok) {
-        
-      }                        
-    }      
-  }
-
-  private processSuccessHttpCustomResponse<TResponse>(response: HttpResponse<TResponse>, success: IObservableHttpCustomResponse<TResponse>) : void {
-
-    if (success != null) {
-      if (response.ok) {
-        let subscribe: ISubscribe<TResponse> = new Subscribe<TResponse>();
-        subscribe.ok = response.ok;
-        subscribe.status = response.status;
-        subscribe.statusText = response.statusText;
-        subscribe.body = response.body;                        
-        subscribe.headers = response.headers;
-                
-        success(subscribe);                            
-      }                        
-    }      
-  }
-
   private processErrorResponse<TError>(error: any, failure: IObservableErrorBase, errorType: ErrorType) : void {
 
     switch(errorType)
