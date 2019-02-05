@@ -1,9 +1,10 @@
 # angular-extended-http-client
 # Extended HttpClient library
 ## The library allows using Angular's HttpClient with strongly-typed callbacks.
-### HttpClientExt
 
 [**NPM package**](https://www.npmjs.com/package/angular-extended-http-client)
+
+### HttpClientExt
 
 The Angular component is an extended HttpClient. It uses HttpClient under the covers.
 
