@@ -99,6 +99,23 @@ This returns the **http error with your error model** from the underlying HttpCl
 
 ## Sample Usage
 
+Add the **HttpClientExtModule** to your app module.
+
+```typescript
+import { HttpClientExtModule } from 'angular-extended-http-client';
+```
+
+and in the **@NgModule** imports
+
+```typescript
+  imports: [
+    .
+    .
+    .
+    HttpClientExtModule
+  ],
+```
+
 ### Your Models
 
 ```typescript

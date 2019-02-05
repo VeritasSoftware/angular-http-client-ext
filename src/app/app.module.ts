@@ -4,7 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppConfigModule } from './app-config.module';
-import { HttpClientExtModule } from 'projects/angular-extended-http-client/src/public_api';
+//import { HttpClientExtModule } from 'projects/angular-extended-http-client/src/public_api';
+import { HttpClientExtModule } from 'angular-extended-http-client';
 import { RacingService } from './services/racing-service.service';
 import { HomeComponent } from './components/home/home.component';
 
