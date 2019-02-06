@@ -222,74 +222,78 @@ export class HttpClientExt implements IHttpClientExtended {
     return httpResponse;                   
   }  
 
-  private processSuccessResponse<TResponse>(responseType: ResponseType, response: HttpResponse<TResponse>, success: IObservableBase) : void {
+  private processSuccessResponse<TResponse>(responseType?: ResponseType, response?: HttpResponse<TResponse>, success?: IObservableBase) : void {
 
-    if (response.ok) {
-      switch(responseType) {        
-        case ResponseType.IObservable:
-          let iObservable = <IObservable<TResponse>>success;
-          iObservable(response!.body);
-          break;
-        case ResponseType.IObservableHttpResponse:
-          let iObservableHttpResponse = <IObservableHttpResponse>success;
-          let subscribe1: ISubscribeBase = new SubscribeBase();
-          subscribe1.ok = response.ok;
-          subscribe1.status = response.status;
-          subscribe1.statusText = response.statusText;
-          subscribe1.headers = response.headers;
-                  
-          iObservableHttpResponse(subscribe1);                            
-          break;
-        case ResponseType.IObservableHttpCustomResponse:
-          let iObservableHttpCustomResponse = <IObservableHttpCustomResponse<TResponse>>success;
-          let subscribe2: ISubscribe<TResponse> = new Subscribe<TResponse>();
-          subscribe2.ok = response.ok;
-          subscribe2.status = response.status;
-          subscribe2.statusText = response.statusText;
-          subscribe2.body = response.body;                        
-          subscribe2.headers = response.headers;
-                  
-          iObservableHttpCustomResponse(subscribe2);                            
-          break;
+    if (responseType != null && success != null) {
+      if (response.ok) {
+        switch(responseType) {        
+          case ResponseType.IObservable:
+            let iObservable = <IObservable<TResponse>>success;
+            iObservable(response!.body);
+            break;
+          case ResponseType.IObservableHttpResponse:
+            let iObservableHttpResponse = <IObservableHttpResponse>success;
+            let subscribe1: ISubscribeBase = new SubscribeBase();
+            subscribe1.ok = response.ok;
+            subscribe1.status = response.status;
+            subscribe1.statusText = response.statusText;
+            subscribe1.headers = response.headers;
+                    
+            iObservableHttpResponse(subscribe1);                            
+            break;
+          case ResponseType.IObservableHttpCustomResponse:
+            let iObservableHttpCustomResponse = <IObservableHttpCustomResponse<TResponse>>success;
+            let subscribe2: ISubscribe<TResponse> = new Subscribe<TResponse>();
+            subscribe2.ok = response.ok;
+            subscribe2.status = response.status;
+            subscribe2.statusText = response.statusText;
+            subscribe2.body = response.body;                        
+            subscribe2.headers = response.headers;
+                    
+            iObservableHttpCustomResponse(subscribe2);                            
+            break;
+        }
       }
     }    
   }
 
-  private processErrorResponse<TError>(error: any, failure: IObservableErrorBase, errorType: ErrorType) : void {
+  private processErrorResponse<TError>(error: any, failure?: IObservableErrorBase, errorType?: ErrorType) : void {
 
-    switch(errorType)
-    {
-      case ErrorType.IObservableError:
-        let observableError = <IObservableError<TError>> failure;
-        observableError(error!.error);        
-        break;
-      case ErrorType.IObservableHttpError:
-        let observableHttpError = <IObservableHttpError> failure;
-        let subscribe1: SubscribeError = new SubscribeError();
-        subscribe1.ok = false;
-        subscribe1.headers = error.headers;
-        subscribe1.message = error.message;
-        subscribe1.status = error.status;
-        subscribe1.statusText = error.statusText;
-
-        observableHttpError(subscribe1);
-        break;
-      case ErrorType.IObservableHttpCustomError:
-        let observableHttpCustomError = <IObservableHttpCustomError<TError>> failure;
-        let subscribe: SubscribeCustomError<TError> = new SubscribeCustomError();
-        subscribe.ok = false;
-        if (error.error) {
-          subscribe.error = error.error;
-        }        
-        subscribe.headers = error.headers;
-        subscribe.message = error.message;
-        subscribe.status = error.status;
-        subscribe.statusText = error.statusText;
-
-        observableHttpCustomError(subscribe);
-        break;
-      default:        
-        break;
-    }
+    if (failure != null && errorType != null) {
+      switch(errorType)
+      {
+        case ErrorType.IObservableError:
+          let observableError = <IObservableError<TError>> failure;
+          observableError(error!.error);        
+          break;
+        case ErrorType.IObservableHttpError:
+          let observableHttpError = <IObservableHttpError> failure;
+          let subscribe1: SubscribeError = new SubscribeError();
+          subscribe1.ok = false;
+          subscribe1.headers = error.headers;
+          subscribe1.message = error.message;
+          subscribe1.status = error.status;
+          subscribe1.statusText = error.statusText;
+  
+          observableHttpError(subscribe1);
+          break;
+        case ErrorType.IObservableHttpCustomError:
+          let observableHttpCustomError = <IObservableHttpCustomError<TError>> failure;
+          let subscribe: SubscribeCustomError<TError> = new SubscribeCustomError();
+          subscribe.ok = false;
+          if (error.error) {
+            subscribe.error = error.error;
+          }        
+          subscribe.headers = error.headers;
+          subscribe.message = error.message;
+          subscribe.status = error.status;
+          subscribe.statusText = error.statusText;
+  
+          observableHttpCustomError(subscribe);
+          break;
+        default:        
+          break;
+      }
+    }    
   }  
 }

@@ -192,50 +192,52 @@ var HttpClientExt = /** @class */ (function () {
     /**
      * @private
      * @template TResponse
-     * @param {?} responseType
-     * @param {?} response
-     * @param {?} success
+     * @param {?=} responseType
+     * @param {?=} response
+     * @param {?=} success
      * @return {?}
      */
     HttpClientExt.prototype.processSuccessResponse = /**
      * @private
      * @template TResponse
-     * @param {?} responseType
-     * @param {?} response
-     * @param {?} success
+     * @param {?=} responseType
+     * @param {?=} response
+     * @param {?=} success
      * @return {?}
      */
     function (responseType, response, success) {
-        if (response.ok) {
-            switch (responseType) {
-                case ResponseType.IObservable:
-                    /** @type {?} */
-                    var iObservable = (/** @type {?} */ (success));
-                    iObservable((/** @type {?} */ (response)).body);
-                    break;
-                case ResponseType.IObservableHttpResponse:
-                    /** @type {?} */
-                    var iObservableHttpResponse = (/** @type {?} */ (success));
-                    /** @type {?} */
-                    var subscribe1 = new SubscribeBase();
-                    subscribe1.ok = response.ok;
-                    subscribe1.status = response.status;
-                    subscribe1.statusText = response.statusText;
-                    subscribe1.headers = response.headers;
-                    iObservableHttpResponse(subscribe1);
-                    break;
-                case ResponseType.IObservableHttpCustomResponse:
-                    /** @type {?} */
-                    var iObservableHttpCustomResponse = (/** @type {?} */ (success));
-                    /** @type {?} */
-                    var subscribe2 = new Subscribe();
-                    subscribe2.ok = response.ok;
-                    subscribe2.status = response.status;
-                    subscribe2.statusText = response.statusText;
-                    subscribe2.body = response.body;
-                    subscribe2.headers = response.headers;
-                    iObservableHttpCustomResponse(subscribe2);
-                    break;
+        if (responseType != null && success != null) {
+            if (response.ok) {
+                switch (responseType) {
+                    case ResponseType.IObservable:
+                        /** @type {?} */
+                        var iObservable = (/** @type {?} */ (success));
+                        iObservable((/** @type {?} */ (response)).body);
+                        break;
+                    case ResponseType.IObservableHttpResponse:
+                        /** @type {?} */
+                        var iObservableHttpResponse = (/** @type {?} */ (success));
+                        /** @type {?} */
+                        var subscribe1 = new SubscribeBase();
+                        subscribe1.ok = response.ok;
+                        subscribe1.status = response.status;
+                        subscribe1.statusText = response.statusText;
+                        subscribe1.headers = response.headers;
+                        iObservableHttpResponse(subscribe1);
+                        break;
+                    case ResponseType.IObservableHttpCustomResponse:
+                        /** @type {?} */
+                        var iObservableHttpCustomResponse = (/** @type {?} */ (success));
+                        /** @type {?} */
+                        var subscribe2 = new Subscribe();
+                        subscribe2.ok = response.ok;
+                        subscribe2.status = response.status;
+                        subscribe2.statusText = response.statusText;
+                        subscribe2.body = response.body;
+                        subscribe2.headers = response.headers;
+                        iObservableHttpCustomResponse(subscribe2);
+                        break;
+                }
             }
         }
     };
@@ -243,54 +245,56 @@ var HttpClientExt = /** @class */ (function () {
      * @private
      * @template TError
      * @param {?} error
-     * @param {?} failure
-     * @param {?} errorType
+     * @param {?=} failure
+     * @param {?=} errorType
      * @return {?}
      */
     HttpClientExt.prototype.processErrorResponse = /**
      * @private
      * @template TError
      * @param {?} error
-     * @param {?} failure
-     * @param {?} errorType
+     * @param {?=} failure
+     * @param {?=} errorType
      * @return {?}
      */
     function (error, failure, errorType) {
-        switch (errorType) {
-            case ErrorType.IObservableError:
-                /** @type {?} */
-                var observableError = (/** @type {?} */ (failure));
-                observableError((/** @type {?} */ (error)).error);
-                break;
-            case ErrorType.IObservableHttpError:
-                /** @type {?} */
-                var observableHttpError = (/** @type {?} */ (failure));
-                /** @type {?} */
-                var subscribe1 = new SubscribeError();
-                subscribe1.ok = false;
-                subscribe1.headers = error.headers;
-                subscribe1.message = error.message;
-                subscribe1.status = error.status;
-                subscribe1.statusText = error.statusText;
-                observableHttpError(subscribe1);
-                break;
-            case ErrorType.IObservableHttpCustomError:
-                /** @type {?} */
-                var observableHttpCustomError = (/** @type {?} */ (failure));
-                /** @type {?} */
-                var subscribe = new SubscribeCustomError();
-                subscribe.ok = false;
-                if (error.error) {
-                    subscribe.error = error.error;
-                }
-                subscribe.headers = error.headers;
-                subscribe.message = error.message;
-                subscribe.status = error.status;
-                subscribe.statusText = error.statusText;
-                observableHttpCustomError(subscribe);
-                break;
-            default:
-                break;
+        if (failure != null && errorType != null) {
+            switch (errorType) {
+                case ErrorType.IObservableError:
+                    /** @type {?} */
+                    var observableError = (/** @type {?} */ (failure));
+                    observableError((/** @type {?} */ (error)).error);
+                    break;
+                case ErrorType.IObservableHttpError:
+                    /** @type {?} */
+                    var observableHttpError = (/** @type {?} */ (failure));
+                    /** @type {?} */
+                    var subscribe1 = new SubscribeError();
+                    subscribe1.ok = false;
+                    subscribe1.headers = error.headers;
+                    subscribe1.message = error.message;
+                    subscribe1.status = error.status;
+                    subscribe1.statusText = error.statusText;
+                    observableHttpError(subscribe1);
+                    break;
+                case ErrorType.IObservableHttpCustomError:
+                    /** @type {?} */
+                    var observableHttpCustomError = (/** @type {?} */ (failure));
+                    /** @type {?} */
+                    var subscribe = new SubscribeCustomError();
+                    subscribe.ok = false;
+                    if (error.error) {
+                        subscribe.error = error.error;
+                    }
+                    subscribe.headers = error.headers;
+                    subscribe.message = error.message;
+                    subscribe.status = error.status;
+                    subscribe.statusText = error.statusText;
+                    observableHttpCustomError(subscribe);
+                    break;
+                default:
+                    break;
+            }
         }
     };
     HttpClientExt.decorators = [

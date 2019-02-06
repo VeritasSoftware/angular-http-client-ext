@@ -1,6 +1,7 @@
 # angular-extended-http-client
 # Extended HttpClient library
 ## The library allows using Angular's HttpClient with strongly-typed callbacks.
+
 ### HttpClientExt
 
 The Angular component is an extended HttpClient. It uses HttpClient under the covers.
@@ -96,6 +97,23 @@ This returns the **http error with your error model** from the underlying HttpCl
 
 ## Sample Usage
 
+Add the **HttpClientExtModule** to your app module.
+
+```typescript
+import { HttpClientExtModule } from 'angular-extended-http-client';
+```
+
+and in the **@NgModule** imports
+
+```typescript
+  imports: [
+    .
+    .
+    .
+    HttpClientExtModule
+  ],
+```
+
 ### Your Models
 
 ```typescript
@@ -121,7 +139,7 @@ import { Injectable, Inject } from '@angular/core'
 import { HttpHeaders } from '@angular/common/http';
 
 import { RacingResponse, APIException } from '../models/models'
-import { HttpClientExt, IObservable, IObservableError, ResponseType, ErrorType } from 'angular-extended-http-client';
+import { HttpClientExt, IObservable, IObservableError, ResponseType, ErrorType } from '../dist/angular-extended-http-client';
 .
 .
 
@@ -174,7 +192,7 @@ In your Component, your Service is injected and the **getRaceInfo** API called a
 Both, **response** and **error** returned in the callbacks are strongly-typed.
 Eg. **response** is type **RacingResponse** and **error** is of type **APIException**.
 
-You only with deal with Models in these strongly-typed callbacks.
+You only deal with Models in these strongly-typed callbacks.
 
 So, the rest of your code knows only about your Models.
 
