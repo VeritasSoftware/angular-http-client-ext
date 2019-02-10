@@ -61,7 +61,7 @@ class HttpClientExt {
             httpResponse
                 .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
         }
-        return httpResponse.pipe();
+        return httpResponse;
     }
     /**
      * @template TRequest, TResponse

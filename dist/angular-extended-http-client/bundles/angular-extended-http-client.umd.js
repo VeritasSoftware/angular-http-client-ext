@@ -88,7 +88,7 @@
                     httpResponse
                         .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
                 }
-                return httpResponse.pipe();
+                return httpResponse;
             };
         /**
          * @template TRequest, TResponse
