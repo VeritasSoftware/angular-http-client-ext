@@ -170,7 +170,7 @@ export class HttpClientExt implements IHttpClientExtended {
             .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
     }        
 
-    return httpResponse.pipe();                   
+    return httpResponse;
   }
 
 
