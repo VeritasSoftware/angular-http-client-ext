@@ -141,7 +141,7 @@ import { Injectable, Inject } from '@angular/core'
 import { HttpHeaders } from '@angular/common/http';
 
 import { RacingResponse, APIException } from '../models/models'
-import { HttpClientExt, IObservable, IObservableError, ResponseType, ErrorType } from '../dist/angular-extended-http-client';
+import { HttpClientExt, IObservable, IObservableError, ResponseType, ErrorType } from 'angular-extended-http-client';
 .
 .
 
