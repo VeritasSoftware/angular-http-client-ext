@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common/http')) :
-    typeof define === 'function' && define.amd ? define('angular-extended-http-client', ['exports', '@angular/core', '@angular/common/http'], factory) :
-    (factory((global['angular-extended-http-client'] = {}),global.ng.core,global.ng.common.http));
-}(this, (function (exports,i0,i1) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('rxjs/operators'), require('@angular/core'), require('@angular/common/http')) :
+    typeof define === 'function' && define.amd ? define('angular-extended-http-client', ['exports', 'rxjs/operators', '@angular/core', '@angular/common/http'], factory) :
+    (factory((global['angular-extended-http-client'] = {}),global.rxjs.operators,global.ng.core,global.ng.common.http));
+}(this, (function (exports,operators,i0,i1) { 'use strict';
 
     /**
      * @fileoverview added by tsickle
@@ -86,6 +86,7 @@
                 var httpResponse = this.client.get(url, options != null ? { headers: options.headers, observe: 'response' } : { observe: 'response' });
                 if (success != null) {
                     httpResponse
+                        .pipe(operators.retry(( /** @type {?} */(options)).retry == null ? 0 : options.retry))
                         .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
                 }
                 return httpResponse;
@@ -120,6 +121,7 @@
                     : { observe: 'response' });
                 if (success != null) {
                     httpResponse
+                        .pipe(operators.retry(( /** @type {?} */(options)).retry == null ? 0 : options.retry))
                         .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
                 }
                 return httpResponse;
@@ -154,6 +156,7 @@
                     : { observe: 'response' });
                 if (success != null) {
                     httpResponse
+                        .pipe(operators.retry(( /** @type {?} */(options)).retry == null ? 0 : options.retry))
                         .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
                 }
                 return httpResponse;
@@ -186,6 +189,7 @@
                     : { observe: 'response' });
                 if (success != null) {
                     httpResponse
+                        .pipe(operators.retry(( /** @type {?} */(options)).retry == null ? 0 : options.retry))
                         .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
                 }
                 return httpResponse;
