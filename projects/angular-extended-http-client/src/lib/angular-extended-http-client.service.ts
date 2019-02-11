@@ -168,7 +168,7 @@ export class HttpClientExt implements IHttpClientExtended {
 
     if (success != null) {
         httpResponse
-            .pipe(retry(options!.retry == null ? 0 : options.retry))
+            .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
             .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
     }        
 
@@ -186,7 +186,7 @@ export class HttpClientExt implements IHttpClientExtended {
                                                                 : {observe: 'response'});
     if (success != null) {
         httpResponse
-            .pipe(retry(options!.retry == null ? 0 : options.retry))
+            .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
             .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
     }        
 
@@ -203,7 +203,7 @@ export class HttpClientExt implements IHttpClientExtended {
                                                                 : {observe: 'response'});
     if (success != null) {
         httpResponse
-            .pipe(retry(options!.retry == null ? 0 : options.retry))
+            .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
             .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
     }        
 
@@ -220,7 +220,7 @@ export class HttpClientExt implements IHttpClientExtended {
                                                   : {observe: 'response'});
     if (success != null) {
         httpResponse
-            .pipe(retry(options!.retry == null ? 0 : options.retry))
+            .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
             .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
     }        
 

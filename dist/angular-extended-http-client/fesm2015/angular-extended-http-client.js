@@ -60,7 +60,7 @@ class HttpClientExt {
         let httpResponse = this.client.get(url, options != null ? { headers: options.headers, observe: 'response' } : { observe: 'response' });
         if (success != null) {
             httpResponse
-                .pipe(retry((/** @type {?} */ (options)).retry == null ? 0 : options.retry))
+                .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
                 .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
         }
         return httpResponse;
@@ -83,7 +83,7 @@ class HttpClientExt {
             : { observe: 'response' });
         if (success != null) {
             httpResponse
-                .pipe(retry((/** @type {?} */ (options)).retry == null ? 0 : options.retry))
+                .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
                 .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
         }
         return httpResponse;
@@ -106,7 +106,7 @@ class HttpClientExt {
             : { observe: 'response' });
         if (success != null) {
             httpResponse
-                .pipe(retry((/** @type {?} */ (options)).retry == null ? 0 : options.retry))
+                .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
                 .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
         }
         return httpResponse;
@@ -128,7 +128,7 @@ class HttpClientExt {
             : { observe: 'response' });
         if (success != null) {
             httpResponse
-                .pipe(retry((/** @type {?} */ (options)).retry == null ? 0 : options.retry))
+                .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
                 .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
         }
         return httpResponse;
