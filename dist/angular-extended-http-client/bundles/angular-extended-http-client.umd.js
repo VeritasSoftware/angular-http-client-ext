@@ -90,8 +90,10 @@
                     if (pipe != null) {
                         httpResponse = httpResponse.pipe(pipe);
                     }
+                    if (options != null && options.retry != null && options.retry > 0) {
+                        httpResponse = httpResponse.pipe(operators.retry(options.retry));
+                    }
                     httpResponse
-                        .pipe(operators.retry((options == null || options.retry == null) ? 0 : options.retry))
                         .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
                 }
                 return httpResponse;
@@ -130,8 +132,10 @@
                     if (pipe != null) {
                         httpResponse = httpResponse.pipe(pipe);
                     }
+                    if (options != null && options.retry != null && options.retry > 0) {
+                        httpResponse = httpResponse.pipe(operators.retry(options.retry));
+                    }
                     httpResponse
-                        .pipe(operators.retry((options == null || options.retry == null) ? 0 : options.retry))
                         .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
                 }
                 return httpResponse;
@@ -170,8 +174,10 @@
                     if (pipe != null) {
                         httpResponse = httpResponse.pipe(pipe);
                     }
+                    if (options != null && options.retry != null && options.retry > 0) {
+                        httpResponse = httpResponse.pipe(operators.retry(options.retry));
+                    }
                     httpResponse
-                        .pipe(operators.retry((options == null || options.retry == null) ? 0 : options.retry))
                         .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
                 }
                 return httpResponse;
@@ -208,8 +214,10 @@
                     if (pipe != null) {
                         httpResponse = httpResponse.pipe(pipe);
                     }
+                    if (options != null && options.retry != null && options.retry > 0) {
+                        httpResponse = httpResponse.pipe(operators.retry(options.retry));
+                    }
                     httpResponse
-                        .pipe(operators.retry((options == null || options.retry == null) ? 0 : options.retry))
                         .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
                 }
                 return httpResponse;

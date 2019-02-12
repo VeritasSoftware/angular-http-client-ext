@@ -63,8 +63,10 @@ class HttpClientExt {
             if (pipe != null) {
                 httpResponse = httpResponse.pipe(pipe);
             }
+            if (options != null && options.retry != null && options.retry > 0) {
+                httpResponse = httpResponse.pipe(retry(options.retry));
+            }
             httpResponse
-                .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
                 .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
         }
         return httpResponse;
@@ -90,8 +92,10 @@ class HttpClientExt {
             if (pipe != null) {
                 httpResponse = httpResponse.pipe(pipe);
             }
+            if (options != null && options.retry != null && options.retry > 0) {
+                httpResponse = httpResponse.pipe(retry(options.retry));
+            }
             httpResponse
-                .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
                 .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
         }
         return httpResponse;
@@ -117,8 +121,10 @@ class HttpClientExt {
             if (pipe != null) {
                 httpResponse = httpResponse.pipe(pipe);
             }
+            if (options != null && options.retry != null && options.retry > 0) {
+                httpResponse = httpResponse.pipe(retry(options.retry));
+            }
             httpResponse
-                .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
                 .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
         }
         return httpResponse;
@@ -143,8 +149,10 @@ class HttpClientExt {
             if (pipe != null) {
                 httpResponse = httpResponse.pipe(pipe);
             }
+            if (options != null && options.retry != null && options.retry > 0) {
+                httpResponse = httpResponse.pipe(retry(options.retry));
+            }
             httpResponse
-                .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
                 .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
         }
         return httpResponse;
