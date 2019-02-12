@@ -166,7 +166,7 @@ export class HttpClientExt implements IHttpClientExtended {
                   failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>> {                
     let httpResponse = this.client.get<TResponse>(url, options != null ? { headers: options.headers, observe: 'response' } : {observe: 'response'});
 
-    if (success != null) {
+    if (responseType != null && success != null) {
         httpResponse
             .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
             .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
@@ -184,7 +184,7 @@ export class HttpClientExt implements IHttpClientExtended {
     let httpResponse = this.client.post<TResponse>(url, model, options != null ? 
                                                                 { headers: options.headers, observe: 'response' } 
                                                                 : {observe: 'response'});
-    if (success != null) {
+    if (responseType != null && success != null) {
         httpResponse
             .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
             .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
@@ -201,7 +201,7 @@ export class HttpClientExt implements IHttpClientExtended {
     let httpResponse = this.client.put<T>(url, model, options != null ? 
                                                                 { headers: options.headers, observe: 'response' } 
                                                                 : {observe: 'response'});
-    if (success != null) {
+    if (responseType != null && success != null) {
         httpResponse
             .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
             .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
@@ -218,7 +218,7 @@ export class HttpClientExt implements IHttpClientExtended {
     let httpResponse = this.client.delete<TResponse>(url, options != null ? 
                                                   { headers: options.headers, observe: 'response' } 
                                                   : {observe: 'response'});
-    if (success != null) {
+    if (responseType != null && success != null) {
         httpResponse
             .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
             .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
