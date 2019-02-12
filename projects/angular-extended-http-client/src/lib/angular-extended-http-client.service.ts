@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, OperatorFunction } from 'rxjs';
 import { retry } from 'rxjs/operators';
 
 export interface IObservableBase {
@@ -128,26 +128,30 @@ export interface IHttpClientExtended {
                   responseType?: ResponseType,
                   success?: IObservableBase, 
                   failureType?: ErrorType, 
-                  failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
+                  failure?: IObservableErrorBase, options?: any, 
+                  pipe?: OperatorFunction<HttpResponse<TResponse>, HttpResponse<TResponse>>) : Observable<HttpResponse<TResponse>>;
 
   post<TRequest, TResponse>(url: string, model: TRequest, 
                               responseType?: ResponseType,
                               success?: IObservableBase, 
                               failureType?: ErrorType,
-                              failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
+                              failure?: IObservableErrorBase, options?: any, 
+                              pipe?: OperatorFunction<HttpResponse<TResponse>, HttpResponse<TResponse>>) : Observable<HttpResponse<TResponse>>;
 
 
   put<T>(url: string, model: T,
             responseType?: ResponseType, 
             success?: IObservableBase,
             failureType?: ErrorType, 
-            failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>>;
+            failure?: IObservableErrorBase, options?: any, 
+            pipe?: OperatorFunction<HttpResponse<T>, HttpResponse<T>>) : Observable<HttpResponse<T>>;
 
   delete<TResponse>(url: string,
                       responseType?: ResponseType, 
                       success?: IObservableBase,
                       failureType?: ErrorType, 
-                      failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
+                      failure?: IObservableErrorBase, options?: any, 
+                      pipe?: OperatorFunction<HttpResponse<TResponse>, HttpResponse<TResponse>>) : Observable<HttpResponse<TResponse>>;
 }
 
 @Injectable({
@@ -163,10 +167,14 @@ export class HttpClientExt implements IHttpClientExtended {
                   responseType?: ResponseType,
                   success?: IObservableBase, 
                   failureType?: ErrorType, 
-                  failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>> {                
+                  failure?: IObservableErrorBase, options?: any, 
+                  pipe?: OperatorFunction<HttpResponse<TResponse>, HttpResponse<TResponse>>) : Observable<HttpResponse<TResponse>> {                
     let httpResponse = this.client.get<TResponse>(url, options != null ? { headers: options.headers, observe: 'response' } : {observe: 'response'});
 
     if (responseType != null && success != null) {
+        if (pipe != null) {
+          httpResponse = httpResponse.pipe(pipe);
+        }
         httpResponse
             .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
             .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
@@ -180,11 +188,15 @@ export class HttpClientExt implements IHttpClientExtended {
                               responseType?: ResponseType, 
                               success?: IObservableBase,
                               failureType?: ErrorType, 
-                              failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>> {                
+                              failure?: IObservableErrorBase, options?: any, 
+                              pipe?: OperatorFunction<HttpResponse<TResponse>, HttpResponse<TResponse>>) : Observable<HttpResponse<TResponse>> {                
     let httpResponse = this.client.post<TResponse>(url, model, options != null ? 
                                                                 { headers: options.headers, observe: 'response' } 
                                                                 : {observe: 'response'});
     if (responseType != null && success != null) {
+        if (pipe != null) {
+          httpResponse = httpResponse.pipe(pipe);
+        }
         httpResponse
             .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
             .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
@@ -197,11 +209,15 @@ export class HttpClientExt implements IHttpClientExtended {
             responseType?: ResponseType, 
             success?: IObservableBase,
             failureType?: ErrorType, 
-            failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>> {                
+            failure?: IObservableErrorBase, options?: any, 
+            pipe?: OperatorFunction<HttpResponse<T>, HttpResponse<T>>) : Observable<HttpResponse<T>> {                
     let httpResponse = this.client.put<T>(url, model, options != null ? 
                                                                 { headers: options.headers, observe: 'response' } 
                                                                 : {observe: 'response'});
     if (responseType != null && success != null) {
+        if (pipe != null) {
+          httpResponse = httpResponse.pipe(pipe);
+        }
         httpResponse
             .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
             .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
@@ -214,11 +230,15 @@ export class HttpClientExt implements IHttpClientExtended {
                       responseType?: ResponseType, 
                       success?: IObservableBase,
                       failureType?: ErrorType, 
-                      failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>> {                
+                      failure?: IObservableErrorBase, options?: any, 
+                      pipe?: OperatorFunction<HttpResponse<TResponse>, HttpResponse<TResponse>>) : Observable<HttpResponse<TResponse>> {                
     let httpResponse = this.client.delete<TResponse>(url, options != null ? 
                                                   { headers: options.headers, observe: 'response' } 
                                                   : {observe: 'response'});
     if (responseType != null && success != null) {
+        if (pipe != null) {
+          httpResponse = httpResponse.pipe(pipe);
+        }        
         httpResponse
             .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
             .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));

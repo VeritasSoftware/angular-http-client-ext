@@ -1,5 +1,5 @@
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, OperatorFunction } from 'rxjs';
 export interface IObservableBase {
 }
 export interface IObservableErrorBase {
@@ -83,18 +83,18 @@ export declare enum ErrorType {
     IObservableHttpCustomError = 2
 }
 export interface IHttpClientExtended {
-    get<TResponse>(url: string, responseType?: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<TResponse>>;
-    post<TRequest, TResponse>(url: string, model: TRequest, responseType?: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<TResponse>>;
-    put<T>(url: string, model: T, responseType?: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<T>>;
-    delete<TResponse>(url: string, responseType?: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<TResponse>>;
+    get<TResponse>(url: string, responseType?: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any, pipe?: OperatorFunction<HttpResponse<TResponse>, HttpResponse<TResponse>>): Observable<HttpResponse<TResponse>>;
+    post<TRequest, TResponse>(url: string, model: TRequest, responseType?: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any, pipe?: OperatorFunction<HttpResponse<TResponse>, HttpResponse<TResponse>>): Observable<HttpResponse<TResponse>>;
+    put<T>(url: string, model: T, responseType?: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any, pipe?: OperatorFunction<HttpResponse<T>, HttpResponse<T>>): Observable<HttpResponse<T>>;
+    delete<TResponse>(url: string, responseType?: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any, pipe?: OperatorFunction<HttpResponse<TResponse>, HttpResponse<TResponse>>): Observable<HttpResponse<TResponse>>;
 }
 export declare class HttpClientExt implements IHttpClientExtended {
     private client;
     constructor(client: HttpClient);
-    get<TResponse>(url: string, responseType?: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<TResponse>>;
-    post<TRequest, TResponse>(url: string, model: TRequest, responseType?: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<TResponse>>;
-    put<T>(url: string, model: T, responseType?: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<T>>;
-    delete<TResponse>(url: string, responseType?: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any): Observable<HttpResponse<TResponse>>;
+    get<TResponse>(url: string, responseType?: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any, pipe?: OperatorFunction<HttpResponse<TResponse>, HttpResponse<TResponse>>): Observable<HttpResponse<TResponse>>;
+    post<TRequest, TResponse>(url: string, model: TRequest, responseType?: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any, pipe?: OperatorFunction<HttpResponse<TResponse>, HttpResponse<TResponse>>): Observable<HttpResponse<TResponse>>;
+    put<T>(url: string, model: T, responseType?: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any, pipe?: OperatorFunction<HttpResponse<T>, HttpResponse<T>>): Observable<HttpResponse<T>>;
+    delete<TResponse>(url: string, responseType?: ResponseType, success?: IObservableBase, failureType?: ErrorType, failure?: IObservableErrorBase, options?: any, pipe?: OperatorFunction<HttpResponse<TResponse>, HttpResponse<TResponse>>): Observable<HttpResponse<TResponse>>;
     private processSuccessResponse;
     private processErrorResponse;
 }

@@ -229,25 +229,31 @@ export interface IHttpClientExtended {
                   responseType?: ResponseType,
                   success?: IObservableBase, 
                   failureType?: ErrorType, 
-                  failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
+                  failure?: IObservableErrorBase, options?: any, 
+                  pipe?: OperatorFunction<HttpResponse<TResponse>, HttpResponse<TResponse>>) : Observable<HttpResponse<TResponse>>;
 
   post<TRequest, TResponse>(url: string, model: TRequest, 
                               responseType?: ResponseType,
                               success?: IObservableBase, 
                               failureType?: ErrorType,
-                              failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
+                              failure?: IObservableErrorBase, options?: any, 
+                              pipe?: OperatorFunction<HttpResponse<TResponse>, HttpResponse<TResponse>>) : Observable<HttpResponse<TResponse>>;
 
 
   put<T>(url: string, model: T,
             responseType?: ResponseType, 
             success?: IObservableBase,
             failureType?: ErrorType, 
-            failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<T>>;
+            failure?: IObservableErrorBase, options?: any, 
+            pipe?: OperatorFunction<HttpResponse<T>, HttpResponse<T>>) : Observable<HttpResponse<T>>;
 
   delete<TResponse>(url: string,
                       responseType?: ResponseType, 
                       success?: IObservableBase,
                       failureType?: ErrorType, 
-                      failure?: IObservableErrorBase, options?: any) : Observable<HttpResponse<TResponse>>;
+                      failure?: IObservableErrorBase, options?: any, 
+                      pipe?: OperatorFunction<HttpResponse<TResponse>, HttpResponse<TResponse>>) : Observable<HttpResponse<TResponse>>;
 }
 ```
+
+You can use underlying HttpClient's **.pipe** as an optional param.

@@ -53,12 +53,16 @@ class HttpClientExt {
      * @param {?=} failureType
      * @param {?=} failure
      * @param {?=} options
+     * @param {?=} pipe
      * @return {?}
      */
-    get(url, responseType, success, failureType, failure, options) {
+    get(url, responseType, success, failureType, failure, options, pipe) {
         /** @type {?} */
         let httpResponse = this.client.get(url, options != null ? { headers: options.headers, observe: 'response' } : { observe: 'response' });
-        if (success != null) {
+        if (responseType != null && success != null) {
+            if (pipe != null) {
+                httpResponse = httpResponse.pipe(pipe);
+            }
             httpResponse
                 .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
                 .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
@@ -74,14 +78,18 @@ class HttpClientExt {
      * @param {?=} failureType
      * @param {?=} failure
      * @param {?=} options
+     * @param {?=} pipe
      * @return {?}
      */
-    post(url, model, responseType, success, failureType, failure, options) {
+    post(url, model, responseType, success, failureType, failure, options, pipe) {
         /** @type {?} */
         let httpResponse = this.client.post(url, model, options != null ?
             { headers: options.headers, observe: 'response' }
             : { observe: 'response' });
-        if (success != null) {
+        if (responseType != null && success != null) {
+            if (pipe != null) {
+                httpResponse = httpResponse.pipe(pipe);
+            }
             httpResponse
                 .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
                 .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
@@ -97,14 +105,18 @@ class HttpClientExt {
      * @param {?=} failureType
      * @param {?=} failure
      * @param {?=} options
+     * @param {?=} pipe
      * @return {?}
      */
-    put(url, model, responseType, success, failureType, failure, options) {
+    put(url, model, responseType, success, failureType, failure, options, pipe) {
         /** @type {?} */
         let httpResponse = this.client.put(url, model, options != null ?
             { headers: options.headers, observe: 'response' }
             : { observe: 'response' });
-        if (success != null) {
+        if (responseType != null && success != null) {
+            if (pipe != null) {
+                httpResponse = httpResponse.pipe(pipe);
+            }
             httpResponse
                 .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
                 .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
@@ -119,14 +131,18 @@ class HttpClientExt {
      * @param {?=} failureType
      * @param {?=} failure
      * @param {?=} options
+     * @param {?=} pipe
      * @return {?}
      */
-    delete(url, responseType, success, failureType, failure, options) {
+    delete(url, responseType, success, failureType, failure, options, pipe) {
         /** @type {?} */
         let httpResponse = this.client.delete(url, options != null ?
             { headers: options.headers, observe: 'response' }
             : { observe: 'response' });
-        if (success != null) {
+        if (responseType != null && success != null) {
+            if (pipe != null) {
+                httpResponse = httpResponse.pipe(pipe);
+            }
             httpResponse
                 .pipe(retry((options == null || options.retry == null) ? 0 : options.retry))
                 .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));

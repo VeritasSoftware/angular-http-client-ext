@@ -68,6 +68,7 @@
          * @param {?=} failureType
          * @param {?=} failure
          * @param {?=} options
+         * @param {?=} pipe
          * @return {?}
          */
         HttpClientExt.prototype.get = /**
@@ -78,13 +79,17 @@
          * @param {?=} failureType
          * @param {?=} failure
          * @param {?=} options
+         * @param {?=} pipe
          * @return {?}
          */
-            function (url, responseType, success, failureType, failure, options) {
+            function (url, responseType, success, failureType, failure, options, pipe) {
                 var _this = this;
                 /** @type {?} */
                 var httpResponse = this.client.get(url, options != null ? { headers: options.headers, observe: 'response' } : { observe: 'response' });
-                if (success != null) {
+                if (responseType != null && success != null) {
+                    if (pipe != null) {
+                        httpResponse = httpResponse.pipe(pipe);
+                    }
                     httpResponse
                         .pipe(operators.retry((options == null || options.retry == null) ? 0 : options.retry))
                         .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
@@ -100,6 +105,7 @@
          * @param {?=} failureType
          * @param {?=} failure
          * @param {?=} options
+         * @param {?=} pipe
          * @return {?}
          */
         HttpClientExt.prototype.post = /**
@@ -111,15 +117,19 @@
          * @param {?=} failureType
          * @param {?=} failure
          * @param {?=} options
+         * @param {?=} pipe
          * @return {?}
          */
-            function (url, model, responseType, success, failureType, failure, options) {
+            function (url, model, responseType, success, failureType, failure, options, pipe) {
                 var _this = this;
                 /** @type {?} */
                 var httpResponse = this.client.post(url, model, options != null ?
                     { headers: options.headers, observe: 'response' }
                     : { observe: 'response' });
-                if (success != null) {
+                if (responseType != null && success != null) {
+                    if (pipe != null) {
+                        httpResponse = httpResponse.pipe(pipe);
+                    }
                     httpResponse
                         .pipe(operators.retry((options == null || options.retry == null) ? 0 : options.retry))
                         .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
@@ -135,6 +145,7 @@
          * @param {?=} failureType
          * @param {?=} failure
          * @param {?=} options
+         * @param {?=} pipe
          * @return {?}
          */
         HttpClientExt.prototype.put = /**
@@ -146,15 +157,19 @@
          * @param {?=} failureType
          * @param {?=} failure
          * @param {?=} options
+         * @param {?=} pipe
          * @return {?}
          */
-            function (url, model, responseType, success, failureType, failure, options) {
+            function (url, model, responseType, success, failureType, failure, options, pipe) {
                 var _this = this;
                 /** @type {?} */
                 var httpResponse = this.client.put(url, model, options != null ?
                     { headers: options.headers, observe: 'response' }
                     : { observe: 'response' });
-                if (success != null) {
+                if (responseType != null && success != null) {
+                    if (pipe != null) {
+                        httpResponse = httpResponse.pipe(pipe);
+                    }
                     httpResponse
                         .pipe(operators.retry((options == null || options.retry == null) ? 0 : options.retry))
                         .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
@@ -169,6 +184,7 @@
          * @param {?=} failureType
          * @param {?=} failure
          * @param {?=} options
+         * @param {?=} pipe
          * @return {?}
          */
         HttpClientExt.prototype.delete = /**
@@ -179,15 +195,19 @@
          * @param {?=} failureType
          * @param {?=} failure
          * @param {?=} options
+         * @param {?=} pipe
          * @return {?}
          */
-            function (url, responseType, success, failureType, failure, options) {
+            function (url, responseType, success, failureType, failure, options, pipe) {
                 var _this = this;
                 /** @type {?} */
                 var httpResponse = this.client.delete(url, options != null ?
                     { headers: options.headers, observe: 'response' }
                     : { observe: 'response' });
-                if (success != null) {
+                if (responseType != null && success != null) {
+                    if (pipe != null) {
+                        httpResponse = httpResponse.pipe(pipe);
+                    }
                     httpResponse
                         .pipe(operators.retry((options == null || options.retry == null) ? 0 : options.retry))
                         .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
