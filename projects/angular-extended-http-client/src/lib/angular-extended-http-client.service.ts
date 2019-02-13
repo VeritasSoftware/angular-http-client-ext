@@ -146,6 +146,13 @@ export interface IHttpClientExtended {
             failure?: IObservableErrorBase, options?: any, 
             pipe?: OperatorFunction<HttpResponse<T>, HttpResponse<T>>) : Observable<HttpResponse<T>>;
 
+  patch<T>(url: string, model: T,
+            responseType?: ResponseType, 
+            success?: IObservableBase,
+            failureType?: ErrorType, 
+            failure?: IObservableErrorBase, options?: any, 
+            pipe?: OperatorFunction<HttpResponse<T>, HttpResponse<T>>) : Observable<HttpResponse<T>>;            
+
   delete<TResponse>(url: string,
                       responseType?: ResponseType, 
                       success?: IObservableBase,
@@ -231,7 +238,30 @@ export class HttpClientExt implements IHttpClientExtended {
 
     return httpResponse;                   
   }
-  
+
+  patch<T>(url: string, model: T,
+            responseType?: ResponseType, 
+            success?: IObservableBase,
+            failureType?: ErrorType, 
+            failure?: IObservableErrorBase, options?: any, 
+            pipe?: OperatorFunction<HttpResponse<T>, HttpResponse<T>>) : Observable<HttpResponse<T>> {                
+    let httpResponse = this.client.patch<T>(url, model, options != null ? 
+                                                                { headers: options.headers, observe: 'response' } 
+                                                                : {observe: 'response'});
+    if (responseType != null && success != null) {
+        if (pipe != null) {
+          httpResponse = httpResponse.pipe(pipe);
+        }
+        if (options != null && options.retry != null && options.retry > 0) {
+          httpResponse = httpResponse.pipe(retry(options.retry));
+        }
+        httpResponse
+            .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
+    }        
+
+    return httpResponse;                   
+  }  
+
   delete<TResponse>(url: string,
                       responseType?: ResponseType, 
                       success?: IObservableBase,

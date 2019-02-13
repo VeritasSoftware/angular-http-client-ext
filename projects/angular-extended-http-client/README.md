@@ -13,6 +13,7 @@ The Angular component is an extended HttpClient. It uses HttpClient under the co
 *   get
 *   post
 *   put
+*   patch
 *   delete
 
 These API are strongly-typed too.
@@ -246,6 +247,13 @@ export interface IHttpClientExtended {
             failureType?: ErrorType, 
             failure?: IObservableErrorBase, options?: any, 
             pipe?: OperatorFunction<HttpResponse<T>, HttpResponse<T>>) : Observable<HttpResponse<T>>;
+
+  patch<T>(url: string, model: T,
+            responseType?: ResponseType, 
+            success?: IObservableBase,
+            failureType?: ErrorType, 
+            failure?: IObservableErrorBase, options?: any, 
+            pipe?: OperatorFunction<HttpResponse<T>, HttpResponse<T>>) : Observable<HttpResponse<T>>;            
 
   delete<TResponse>(url: string,
                       responseType?: ResponseType, 

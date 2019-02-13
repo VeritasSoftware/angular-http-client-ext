@@ -250,6 +250,13 @@ export interface IHttpClientExtended {
             failure?: IObservableErrorBase, options?: any, 
             pipe?: OperatorFunction<HttpResponse<T>, HttpResponse<T>>) : Observable<HttpResponse<T>>;
 
+  patch<T>(url: string, model: T,
+            responseType?: ResponseType, 
+            success?: IObservableBase,
+            failureType?: ErrorType, 
+            failure?: IObservableErrorBase, options?: any, 
+            pipe?: OperatorFunction<HttpResponse<T>, HttpResponse<T>>) : Observable<HttpResponse<T>>;            
+
   delete<TResponse>(url: string,
                       responseType?: ResponseType, 
                       success?: IObservableBase,

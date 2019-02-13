@@ -130,6 +130,35 @@ class HttpClientExt {
         return httpResponse;
     }
     /**
+     * @template T
+     * @param {?} url
+     * @param {?} model
+     * @param {?=} responseType
+     * @param {?=} success
+     * @param {?=} failureType
+     * @param {?=} failure
+     * @param {?=} options
+     * @param {?=} pipe
+     * @return {?}
+     */
+    patch(url, model, responseType, success, failureType, failure, options, pipe) {
+        /** @type {?} */
+        let httpResponse = this.client.patch(url, model, options != null ?
+            { headers: options.headers, observe: 'response' }
+            : { observe: 'response' });
+        if (responseType != null && success != null) {
+            if (pipe != null) {
+                httpResponse = httpResponse.pipe(pipe);
+            }
+            if (options != null && options.retry != null && options.retry > 0) {
+                httpResponse = httpResponse.pipe(retry(options.retry));
+            }
+            httpResponse
+                .subscribe(x => this.processSuccessResponse(responseType, x, success), error => this.processErrorResponse(error, failure, failureType));
+        }
+        return httpResponse;
+    }
+    /**
      * @template TResponse
      * @param {?} url
      * @param {?=} responseType

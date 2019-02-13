@@ -183,6 +183,48 @@
                 return httpResponse;
             };
         /**
+         * @template T
+         * @param {?} url
+         * @param {?} model
+         * @param {?=} responseType
+         * @param {?=} success
+         * @param {?=} failureType
+         * @param {?=} failure
+         * @param {?=} options
+         * @param {?=} pipe
+         * @return {?}
+         */
+        HttpClientExt.prototype.patch = /**
+         * @template T
+         * @param {?} url
+         * @param {?} model
+         * @param {?=} responseType
+         * @param {?=} success
+         * @param {?=} failureType
+         * @param {?=} failure
+         * @param {?=} options
+         * @param {?=} pipe
+         * @return {?}
+         */
+            function (url, model, responseType, success, failureType, failure, options, pipe) {
+                var _this = this;
+                /** @type {?} */
+                var httpResponse = this.client.patch(url, model, options != null ?
+                    { headers: options.headers, observe: 'response' }
+                    : { observe: 'response' });
+                if (responseType != null && success != null) {
+                    if (pipe != null) {
+                        httpResponse = httpResponse.pipe(pipe);
+                    }
+                    if (options != null && options.retry != null && options.retry > 0) {
+                        httpResponse = httpResponse.pipe(operators.retry(options.retry));
+                    }
+                    httpResponse
+                        .subscribe(function (x) { return _this.processSuccessResponse(responseType, x, success); }, function (error) { return _this.processErrorResponse(error, failure, failureType); });
+                }
+                return httpResponse;
+            };
+        /**
          * @template TResponse
          * @param {?} url
          * @param {?=} responseType
