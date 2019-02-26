@@ -32,6 +32,9 @@ This library encapsulates the **.subscribe(x => ...)** part and exposes only the
 
 **So, with strongly-typed callbacks, you only have to deal with your Models in the rest of your code.**
 
+Also, with this abstraction, **you could potentially remove HttpClient** as the underlying http implementation without affecting the rest of your code.
+You can do this by using the callbacks (tied only to models) with a different http implementation.
+
 ## Strongly-typed callback types
 
 ## Success
